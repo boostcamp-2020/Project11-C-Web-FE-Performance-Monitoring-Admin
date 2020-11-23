@@ -10,7 +10,9 @@
     "paths": {
       "@/*": ["src/*"],
       "@components/*": ["src/components/*"],
-      },
+      "@pages/*": ["src/pages/*"],
+      "@molecules/*": ["src/molecules/*"]
+    }
   },
   "include": ["src/**/*.ts", "src/**/*.tsx"],
   "exclude": ["node_modules"]
