@@ -1,10 +1,12 @@
 import React from 'react';
 import Main from './pages/Main';
+import GlobalStyle from '../style/globalStyle';
 
 const App: React.FC = () => {
   return (
     <div>
-      <Main></Main>
+      <GlobalStyle />
+      <Main />
     </div>
   );
 };

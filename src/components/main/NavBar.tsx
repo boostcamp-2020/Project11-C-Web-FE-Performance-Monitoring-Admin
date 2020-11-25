@@ -38,9 +38,9 @@ const Wrapper = styled.p`
   padding-top: 20px;
   left: 0;
   top: 0;
-  width: 150px;
+  width: var(--nav-width);
   height: 100vh;
-  background: blue;
+  background: var(--nav-bar);
 `;
 
 export default NavBar;

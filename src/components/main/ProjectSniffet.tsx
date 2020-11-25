@@ -34,7 +34,7 @@ const ProjectContainer = styled.div`
 
 const ProjectNameText = styled.p`
   text-align: center;
-  font-size: 40px;
+  font-size: var(--font-big);
 `;
 
 export default ProjectSniffet;
