@@ -10,7 +10,9 @@ type ProjectProps = {
 const ProjectSniffet = ({ projectName, color, link }: ProjectProps) => {
   return (
     <Wrapper href={link}>
-      <ProjectContainer color={color}>{projectName}</ProjectContainer>
+      <ProjectContainer color={color}>
+        <ProjectNameText>{projectName}</ProjectNameText>
+      </ProjectContainer>
     </Wrapper>
   );
 };
@@ -25,8 +27,13 @@ const ProjectContainer = styled.div`
   background: ${props => props.color};
   border-radius: 10px;
 
-  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
 
+const ProjectNameText = styled.p`
+  text-align: center;
   font-size: 40px;
 `;
 
