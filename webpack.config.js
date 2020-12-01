@@ -12,6 +12,8 @@ module.exports = {
     extensions: ['.js', '.jsx', '.ts', '.tsx'],
     alias: {
       '@components': path.resolve(__dirname, 'src/components'),
+      '@pages': path.resolve(__dirname, 'src/pages'),
+      '@molecules': path.resolve(__dirname, 'src/molecules'),
     },
   },
   output: {
@@ -33,7 +35,7 @@ module.exports = {
   },
   devServer: {
     historyApiFallback: true,
-    port: 3000,
+    port: 8000,
   },
   plugins: [
     new HtmlWebpackPlugin({
