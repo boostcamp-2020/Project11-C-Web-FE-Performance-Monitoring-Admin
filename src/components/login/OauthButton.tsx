@@ -14,7 +14,7 @@ const OauthButton = ({ defaultText, onClick }: buttonProps) => {
 };
 
 const OauthButtonStyle = styled.button`
-  width: 81%;
+  width: 250px;
   height: 40px;
 
   margin: 10px auto;
