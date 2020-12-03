@@ -1,13 +1,16 @@
 import React from 'react';
-import Main from './pages/Main';
-import GlobalStyle from '../style/globalStyle';
+import { BrowserRouter, Route } from 'react-router-dom';
+import Projects from './pages/Projects';
+import Login from './pages/Login';
+import GlobalStyle from './style/globalStyle';
 
 const App: React.FC = () => {
   return (
-    <div>
+    <BrowserRouter>
       <GlobalStyle />
-      <Main />
-    </div>
+      <Route path="/projects" component={Projects} exact />
+      <Route path="/" component={Login} exact />
+    </BrowserRouter>
   );
 };
 
