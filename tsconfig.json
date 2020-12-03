@@ -11,7 +11,8 @@
       "@/*": ["src/*"],
       "@components/*": ["src/components/*"],
       "@pages/*": ["src/pages/*"],
-      "@molecules/*": ["src/molecules/*"]
+      "@molecules/*": ["src/molecules/*"],
+      "@utils/*": ["src/utils/*"]
     }
   },
   "include": ["src/**/*.ts", "src/**/*.tsx"],
