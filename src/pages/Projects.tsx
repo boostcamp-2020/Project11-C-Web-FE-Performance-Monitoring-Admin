@@ -1,37 +1,26 @@
-import React from 'react';
-import styled from 'styled-components';
+import React, { useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
+import Api from '@utils/Api';
 
-import Header from '@components/utils/Header';
-import LeftBar from '@components/projects/LeftBar';
-import MainContainer from '@components/projects/MainContainer';
+const Projects = () => {
+  const history = useHistory();
 
-const Projects: React.FC = () => {
-  return (
-    <RootContainer>
-      <Header />
-      <ContentsContainer>
-        <LeftBar />
-        <MainContainer />
-      </ContentsContainer>
-    </RootContainer>
-  );
+  const redirectProjects = async () => {
+    const {
+      data: { recentProject },
+    } = await Api.getUser();
+    if (recentProject) {
+      history.push(`/projects/${recentProject}`);
+    } else {
+      history.push('/projects/new');
+    }
+  };
+
+  useEffect(() => {
+    redirectProjects();
+  }, []);
+
+  return <></>;
 };
-
-const ContentsContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  height: 100%;
-`;
-
-const RootContainer = styled.div`
-  width: 100%;
-  height: 100%;
-
-  display: flex;
-  flex-direction: column;
-
-  margin: 0 auto;
-`;
 
 export default Projects;
