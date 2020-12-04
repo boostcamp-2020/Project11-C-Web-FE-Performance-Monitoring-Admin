@@ -10,4 +10,14 @@ const getUser = async () => {
   }
 };
 
-export default { getUser };
+const getProject = async (projectId: string) => {
+  try {
+    return await axios.get(`${process.env.API_URL}/project/${projectId}`, {
+      withCredentials: true,
+    });
+  } catch (err) {
+    return err;
+  }
+};
+
+export default { getUser, getProject };
