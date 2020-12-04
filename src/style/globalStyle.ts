@@ -7,16 +7,24 @@ const GlobalStyle = createGlobalStyle`
 		--font-small: 10px;
 		--nav-width: 150px;
 		--nav-bar: blue;
+		height: 100%;
 	}
 	body {
 		font-family: 'Open Sans', sans-serif;
+		height: 100%;
+		width: 100%;
 		margin: 0;
 		padding: 0;
+		background: linear-gradient(to bottom right, #689cc3 15%, #8b3e5e 100%);
+		background-repeat: no-repeat;
 	}
 	*,
 	*:before,
 	*:after {
 	  box-sizing: border-box;
+	}
+	#root {
+		height: 100%;
 	}
 	p {
 		margin: 0;
@@ -29,10 +37,6 @@ const GlobalStyle = createGlobalStyle`
 		text-decoration:none;
 		outline: none;
 		cursor: pointer;
-		&:hover {
-			background-color: rgba(27, 31, 35, 0.08);
-			transition: 0.2s;
-  		}
 	}
 `;
 
