@@ -55,7 +55,7 @@ const Projects = () => {
     setProjects([...data]);
   };
 
-  const clickProjectHeaderButton = () => {
+  const clickProjectsHeaderButton = () => {
     history.push('/projects/new');
   };
 
@@ -67,7 +67,7 @@ const Projects = () => {
     <ProjectsRoot>
       <ProjectsHeader>
         <ProjectsHeaderTitle>Projects</ProjectsHeaderTitle>
-        <ProjectsHeaderButton onClick={clickProjectHeaderButton}>
+        <ProjectsHeaderButton onClick={clickProjectsHeaderButton}>
           <AddCircleOutlineIcon />
           Create Project
         </ProjectsHeaderButton>
