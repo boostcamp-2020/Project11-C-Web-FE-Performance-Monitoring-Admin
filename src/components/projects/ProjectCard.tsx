@@ -8,6 +8,10 @@ const ProjectCardRoot = styled.div`
   & > div {
     padding: 0.5rem;
   }
+  &:hover {
+    box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.2);
+    transition: 5ms;
+  }
 `;
 
 const ProjectCardHeader = styled.div`
