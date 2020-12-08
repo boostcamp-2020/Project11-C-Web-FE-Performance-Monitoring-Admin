@@ -1,7 +1,6 @@
 // eslint-disable-next-line no-use-before-define
 import React from 'react';
 import styled from 'styled-components';
-import Header from '@components/utils/Header';
 import LeftContents from '@components/login/LeftContents';
 import RightContents from '@components/login/RightContents';
 
@@ -14,7 +13,6 @@ const BackImg = styled.img`
 const Login: React.FC = () => {
   return (
     <RootContainer>
-      <Header />
       <BodyContainer>
         <LeftContents />
         <RightContents />
