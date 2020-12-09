@@ -36,8 +36,6 @@ const HomeButton = styled.button`
 
 const HeaderContainer = styled.div`
   background-color: rgba(0, 0, 0, 0.3);
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
 `;
 
 const GlobalHeader = () => {

@@ -6,7 +6,7 @@ const Container = styled.div`
 
   margin-bottom: 2rem;
   margin-left: 6rem;
-  margin-right: 6rem;
+  margin-right: 5.6rem;
 
   background-color: rgba(0, 0, 0, 0.3);
 
@@ -20,8 +20,8 @@ const BackgroundImage = styled.img`
   margin-top: 4.5rem;
   position: absolute;
   z-index: 1;
-  top: 5rem;
-  left: 58rem;
+  top: 4.3rem;
+  left: 58.5rem;
 `;
 
 const Form = styled.div`
@@ -29,6 +29,7 @@ const Form = styled.div`
   flex-direction: column;
 
   padding-top: 0.5rem;
+  padding-bottom: 1.5rem;
   padding-left: 2rem;
   padding-right: 2rem;
 

@@ -7,7 +7,7 @@ const GlobalStyle = createGlobalStyle`
 		--font-small: 10px;
 		--nav-width: 150px;
 		--nav-bar: blue;
-		height: 100%;
+		height: 50rem;
 	}
 	body {
 		font-family: 'Open Sans', sans-serif;
