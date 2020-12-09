@@ -19,7 +19,7 @@ import NewReleasesIcon from '@material-ui/icons/NewReleases';
 import HelpIcon from '@material-ui/icons/Help';
 import SyncAltIcon from '@material-ui/icons/SyncAlt';
 
-import UserContainer from '@components/projects/UserContainer';
+import UserContainer from '@components/issues/UserContainer';
 
 const drawerWidth = 240;
 
