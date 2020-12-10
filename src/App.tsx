@@ -20,7 +20,7 @@ const App: React.FC = () => {
         <Route path="/projects/new" component={ProjectNew} exact />
         <Route path="/projects/:projectId" component={ProjectDetail} exact />
       </Switch>
-      <Route path="/main" component={Issues} exact />
+      <Route path="/issues" component={Issues} exact />
       <Route path="/issues/:issueId" component={IssueDetail} />
     </>
   );
