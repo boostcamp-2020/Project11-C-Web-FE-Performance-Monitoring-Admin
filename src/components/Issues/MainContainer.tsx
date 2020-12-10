@@ -6,12 +6,15 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import Filter from './issue/Filter';
 import TableColumn from './issue/TableColumn';
-import IssueItem from './issue/IssueItem';
+import ResolveProvider from './issue/ResolveProvider';
 
 const useStyles = makeStyles(theme => ({
   backdrop: {
     zIndex: theme.zIndex.drawer + 1,
     color: '#fff',
+  },
+  MainCotainer: {
+    overflow: 'hidden',
   },
 }));
 
@@ -20,29 +23,34 @@ const MainContainer = () => {
   const [open, setOpen] = React.useState(true);
 
   const [issues, setIssues] = useState(null);
-  const [errorEvents, setErrorEvents] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchUsers = async () => {
+    const getIssues = async () => {
       try {
         setError(null);
         setIssues(null);
 
         setLoading(true);
-        const respone: any = await axios.get('http://localhost:3000/issue', {
+        const response: any = await axios.get('http://localhost:3000/issue', {
           withCredentials: true,
         });
 
-        setIssues(respone.data);
+        const checkBoxState: boolean[] = new Array(response.data.length + 1);
+
+        for (let index = 0; index < checkBoxState.length; index++) {
+          checkBoxState[index] = false;
+        }
+
+        setIssues(response.data);
       } catch (e) {
         setError(e);
       }
       setLoading(false);
     };
 
-    fetchUsers();
+    getIssues();
   }, []);
 
   if (loading) {
@@ -58,23 +66,11 @@ const MainContainer = () => {
   if (!issues) return null;
 
   return (
-    <div>
-      <Filter eventNum={issues.length} />
-      <TableColumn />
-      {issues.map(issue => (
-        <IssueItem
-          key={issue._id}
-          issueId={issue._id}
-          name={issue.name}
-          description={issue.message}
-          eventNum={issue.errorEvents.length}
-          userNum={issue.users}
-          assigned={issue.assigned}
-          errorEvents={issue.errorEvents}
-          stack={issue.stack}
-          date={issue.createdAt}
-        />
-      ))}
+    <div className={classes.MainCotainer}>
+      <Filter eventNum={issues.length} projectId={issues[0].projectId} />
+      <ResolveProvider>
+        <TableColumn issues={issues} />
+      </ResolveProvider>
     </div>
   );
 };

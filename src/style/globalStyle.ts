@@ -14,7 +14,7 @@ const GlobalStyle = createGlobalStyle`
 		width: 100%;
 		margin: 0;
 		padding: 0;
-		background: linear-gradient(to bottom right, #689cc3 15%, #8b3e5e 100%);
+		background: linear-gradient(to right, #689cc3 15%, #8b3e5e 100%);
 		background-size: cover;
 		background-repeat: no-repeat;
 	}

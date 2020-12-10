@@ -14,7 +14,7 @@ import { makeStyles } from '@material-ui/core/styles';
 const options = ['Resolved', 'Unresolved', 'Yours'];
 
 const useStyles = makeStyles(theme => ({
-  sortButtons: {
+  sortButton: {
     backgroundColor: 'rgba(30,30,40,0.3)',
     color: 'white',
     textTransform: 'none',
@@ -61,9 +61,9 @@ export default function SortButton() {
           variant="contained"
           ref={anchorRef}
           aria-label="split button"
-          className={classes.sortButtons}
+          className={classes.sortButton}
         >
-          <Button className={classes.sortButtons} onClick={handleClick}>
+          <Button className={classes.sortButton} onClick={handleClick}>
             {options[selectedIndex]}
           </Button>
           <Button

@@ -93,7 +93,7 @@ const IssueItem = props => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchUsers = async () => {
+    const getIssues = async () => {
       try {
         setError(null);
         setErrorEvents(null);
@@ -113,7 +113,7 @@ const IssueItem = props => {
       setLoading(false);
     };
 
-    fetchUsers();
+    getIssues();
   }, []);
 
   if (loading) {
@@ -126,7 +126,12 @@ const IssueItem = props => {
     <div className={classes.container}>
       <div className={classes.IssueInfo}>
         <div className={classes.IssueName}>
-          <input type="checkbox" />
+          <input
+            type="checkbox"
+            id={props.issueId}
+            onClick={props.onClick}
+            className="item_checkbox"
+          />
           {props.name + '(' + fileInfo}
         </div>
         <div className={classes.IssueInfoItem}>{props.description}</div>
@@ -140,7 +145,7 @@ const IssueItem = props => {
         <Avatar className={classes.countAvatar}>{props.eventNum}</Avatar>
       </div>
       <div className={classes.column}>
-        <Assigned />
+        <Assigned projectId={props.projectId} issueId={props.issueId} />
       </div>
     </div>
   );
