@@ -4,8 +4,8 @@ import Login from '@pages/Login';
 import Projects from '@pages/Projects';
 import ProjectNew from '@pages/ProjectNew';
 import ProjectDetail from '@pages/ProjectDetail';
+import Usage from '@pages/Usage';
 import Issues from '@pages/Issues';
-import Header from '@components/utils/Header';
 import IssueDetail from '@pages/IssueDetail';
 import GlobalStyle from './style/globalStyle';
 
@@ -13,7 +13,6 @@ const App: React.FC = () => {
   return (
     <>
       <GlobalStyle />
-      {/* <Header /> */}
       <Route path="/" component={Login} exact />
       <Route path="/projects" component={Projects} exact />
       <Switch>
@@ -22,6 +21,7 @@ const App: React.FC = () => {
       </Switch>
       <Route path="/issues" component={Issues} exact />
       <Route path="/issues/:issueId" component={IssueDetail} />
+      <Route path="/usage/:platform" component={Usage} exact />
     </>
   );
 };
