@@ -92,7 +92,7 @@ export default function Assigned(props) {
         setProjectMembers(null);
 
         const response: any = await axios.get(
-          `http://localhost:3000/project/${props.projectId}`,
+          `${process.env.API_URL}/project/${props.projectId}`,
           {
             withCredentials: true,
           }

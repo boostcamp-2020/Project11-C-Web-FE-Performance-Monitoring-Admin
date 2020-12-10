@@ -100,7 +100,7 @@ const IssueItem = props => {
 
         setLoading(true);
         const respone: any = await axios.get(
-          `http://localhost:3000/errorevent/issue/${props.issueId}`,
+          `${process.env.API_URL}/errorevent/issue/${props.issueId}`,
           {
             withCredentials: true,
           }

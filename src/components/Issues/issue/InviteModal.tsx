@@ -38,7 +38,7 @@ export default function InviteModal() {
         setUsers(null);
 
         const response: any = await axios.get(
-          `http://localhost:3000/user/all`,
+          `${process.env.API_URL}/user/all`,
           {
             withCredentials: true,
           }

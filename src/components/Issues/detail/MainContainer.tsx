@@ -70,6 +70,7 @@ const MainContainer = (props: { issueId: string }) => {
   const initISsueData = async () => {
     setIsLoading(true);
     const issueData = await ISsueDetailApi.getDetailIssueByIssueId(issueId);
+    console.log(issueData);
     setIssue(issueData);
     const errorEventId =
       issueData.errorEvents[issueData.errorEvents.length - 1];
@@ -94,6 +95,8 @@ const MainContainer = (props: { issueId: string }) => {
       </div>
     );
   }
+
+  if (!errorEvent) return null;
   const pathInfo = issue?.stack.split('\n')[1].split('/');
   const fileInfo = pathInfo[pathInfo.length - 1];
 

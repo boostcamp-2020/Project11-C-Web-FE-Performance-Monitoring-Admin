@@ -24,7 +24,10 @@ const useStyles = makeStyles(theme => ({
 
 const MainPage = ({ match }) => {
   const classes = useStyles();
+  console.log(match);
+  console.log(match.params);
   const { issueId } = match.params;
+  console.log(issueId);
   return (
     <div className={classes.root}>
       <CssBaseline />

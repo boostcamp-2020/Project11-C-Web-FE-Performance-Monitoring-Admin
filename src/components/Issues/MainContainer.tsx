@@ -33,7 +33,7 @@ const MainContainer = () => {
         setIssues(null);
 
         setLoading(true);
-        const response: any = await axios.get('http://localhost:3000/issue', {
+        const response: any = await axios.get(`${process.env.API_URL}/issue`, {
           withCredentials: true,
         });
 
