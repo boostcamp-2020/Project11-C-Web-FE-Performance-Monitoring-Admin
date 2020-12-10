@@ -6,6 +6,7 @@ import ProjectNew from '@pages/ProjectNew';
 import ProjectDetail from '@pages/ProjectDetail';
 import Issues from '@pages/Issues';
 import Header from '@components/utils/Header';
+import IssueDetail from '@pages/IssueDetail';
 import GlobalStyle from './style/globalStyle';
 
 const App: React.FC = () => {
@@ -20,6 +21,7 @@ const App: React.FC = () => {
         <Route path="/projects/:projectId" component={ProjectDetail} exact />
       </Switch>
       <Route path="/main" component={Issues} exact />
+      <Route path="/issues/:issueId" component={IssueDetail} />
     </>
   );
 };
