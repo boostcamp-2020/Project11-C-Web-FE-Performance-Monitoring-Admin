@@ -18,13 +18,20 @@ const ProjectCardRoot = styled.div`
 const ProjectCardHeader = styled.div`
   display: flex;
   flex-direction: column;
+  height: 4.5rem;
   background-color: rgba(0, 0, 0, 0.1);
   & span {
-    width: 25rem;
+    width: inherit;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
+`;
+
+const ProjectCardHeaderTitleWrapper = styled.div<{ isPlatform: boolean }>`
+  display: flex;
+  justify-content: ${props =>
+    props.isPlatform ? 'space-between' : 'flex-start'};
 `;
 
 const ProjectCardHeaderTitle = styled.span`
@@ -49,10 +56,16 @@ const ProjectCardBodyChart = styled.div`
   height: 10rem;
 `;
 
-const ProjectCartFooter = styled.div`
+const ProjectCardFooter = styled.div`
   display: flex;
   justify-content: flex-end;
   background-color: rgba(0, 0, 0, 0.1);
+`;
+
+const ProjectCardFooterImage = styled.img`
+  width: 2rem;
+  height: 2rem;
+  object-fit: contain;
 `;
 
 const ProjectCard = ({ project }) => {
@@ -65,7 +78,14 @@ const ProjectCard = ({ project }) => {
   return (
     <ProjectCardRoot onClick={clickProjectCard}>
       <ProjectCardHeader>
-        <ProjectCardHeaderTitle>{project.title}</ProjectCardHeaderTitle>
+        <ProjectCardHeaderTitleWrapper isPlatform={!!project.platform}>
+          <ProjectCardHeaderTitle>{project.title}</ProjectCardHeaderTitle>
+          {project.platform && (
+            <ProjectCardFooterImage
+              src={`../../../public/png/${project.platform}.png`}
+            />
+          )}
+        </ProjectCardHeaderTitleWrapper>
         <ProjectCardHeaderDescription>
           {project.description}
         </ProjectCardHeaderDescription>
@@ -76,10 +96,10 @@ const ProjectCard = ({ project }) => {
         </ProjectCardBodyErrorCount>
         <ProjectCardBodyChart>Chart</ProjectCardBodyChart>
       </ProjectCardBody>
-      <ProjectCartFooter>
+      <ProjectCardFooter>
         Created {moment(project.createdAt).format('YYYY/MM/DD')} by{' '}
         {project.owner.name}
-      </ProjectCartFooter>
+      </ProjectCardFooter>
     </ProjectCardRoot>
   );
 };
