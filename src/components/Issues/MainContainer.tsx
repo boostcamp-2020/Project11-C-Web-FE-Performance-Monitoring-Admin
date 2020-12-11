@@ -18,7 +18,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const MainContainer = () => {
+const MainContainer = ({ projectId }) => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
 
@@ -33,9 +33,14 @@ const MainContainer = () => {
         setIssues(null);
 
         setLoading(true);
-        const response: any = await axios.get(`${process.env.API_URL}/issue`, {
-          withCredentials: true,
-        });
+        const response: any = await axios.get(
+          `${process.env.API_URL}/issue/project/${projectId}`,
+          {
+            withCredentials: true,
+          }
+        );
+        console.log('-----------');
+        console.log(response);
 
         const checkBoxState: boolean[] = new Array(response.data.length + 1);
 

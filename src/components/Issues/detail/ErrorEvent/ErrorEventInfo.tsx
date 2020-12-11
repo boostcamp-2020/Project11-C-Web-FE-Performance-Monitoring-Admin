@@ -2,6 +2,15 @@ import React, { useState, useEffect } from 'react';
 import ISsueDetailApi from '@utils/IssueDetailApi';
 import styled from 'styled-components';
 
+const EventIdContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+const EventIdText = styled.h3`
+  color: red;
+  margin-left: 1rem;
+`;
+
 const ErrorEventInfo = props => {
   const { errorEvent } = props;
 
@@ -14,23 +23,15 @@ const ErrorEventInfo = props => {
 
   return (
     <div>
-      <div>
-        <h3>EVENTID : {errorEvent._id}</h3>
-      </div>
-      <div>
-        <h2>{errorEvent.name}</h2>
-        <h3>{errorEvent.message}</h3>
-      </div>
+      <EventIdContainer>
+        <h3>Event</h3> <EventIdText>{errorEvent._id}</EventIdText>
+      </EventIdContainer>
 
       <div>
-        <h2>STACK TRACE</h2>
+        <h2>Stack trace</h2>
         {errorEvent.stack}
       </div>
-      <div>
-        <h2>에러 발생 소스코드</h2>
-      </div>
-
-      <div></div>
+      <h2>Tags</h2>
     </div>
   );
 };

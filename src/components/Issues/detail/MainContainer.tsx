@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import ISsueDetailApi from '@utils/IssueDetailApi';
-import styled from 'styled-components';
+import IssueDetailApi from '@utils/IssueDetailApi';
 import Button from '@material-ui/core/Button';
 import { Backdrop } from '@material-ui/core';
 import makeStyles from '@material-ui/core/styles/makeStyles';
@@ -9,18 +8,7 @@ import SkipPrevious from '@material-ui/icons/SkipPrevious';
 import SkipNext from '@material-ui/icons/SkipNext';
 import ErrorEventInfo from './ErrorEvent/ErrorEventInfo';
 import TagArea from './TagArea';
-
-const IssueContainer = styled.div`
-  border-color: rgba(255, 255, 255, 0.1);
-  border-width: 0.1rem;
-  background-color: rgba(255, 255, 255, 0.1);
-  border-top-style: solid;
-  color: white;
-`;
-
-const IssueHeader = styled.div``;
-
-const MenuContainer = styled.div``;
+import DetailHeader from './Header/DetailHeader';
 
 const useStyles = makeStyles(theme => ({
   backdrop: {
@@ -29,6 +17,19 @@ const useStyles = makeStyles(theme => ({
   },
   button: {
     margin: theme.spacing(1),
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    color: 'white',
+  },
+  DetailContainer: {
+    paddingBottom: '1rem',
+    paddingLeft: '1rem',
+    paddingRight: '1rem',
+    backgroundColor: 'rgba(0,0,0,0.3)',
+    height: '93%',
+    color: 'white',
+  },
+  switchContainer: {
+    textAlign: 'right',
   },
 }));
 
@@ -46,7 +47,7 @@ const MainContainer = (props: { issueId: string }) => {
     setIsLoading(true);
     const preidx = currentErrorEventIdx - 1;
     setCurrentErrorEventIdx(preidx);
-    const errorEventData = await ISsueDetailApi.getErrorEventByErrorEventId(
+    const errorEventData = await IssueDetailApi.getErrorEventByErrorEventId(
       errorEvents[preidx]
     );
     seterrorEvent(errorEventData);
@@ -58,7 +59,7 @@ const MainContainer = (props: { issueId: string }) => {
     setIsLoading(true);
     const preidx = currentErrorEventIdx + 1;
     setCurrentErrorEventIdx(preidx);
-    const errorEventData = await ISsueDetailApi.getErrorEventByErrorEventId(
+    const errorEventData = await IssueDetailApi.getErrorEventByErrorEventId(
       errorEvents[preidx]
     );
     seterrorEvent(errorEventData);
@@ -69,12 +70,12 @@ const MainContainer = (props: { issueId: string }) => {
 
   const initISsueData = async () => {
     setIsLoading(true);
-    const issueData = await ISsueDetailApi.getDetailIssueByIssueId(issueId);
+    const issueData = await IssueDetailApi.getDetailIssueByIssueId(issueId);
     console.log(issueData);
     setIssue(issueData);
     const errorEventId =
       issueData.errorEvents[issueData.errorEvents.length - 1];
-    const errorEventData = await ISsueDetailApi.getErrorEventByErrorEventId(
+    const errorEventData = await IssueDetailApi.getErrorEventByErrorEventId(
       errorEventId
     );
     setCurrentErrorEventIdx(issueData.errorEvents.length - 1);
@@ -101,22 +102,24 @@ const MainContainer = (props: { issueId: string }) => {
   const fileInfo = pathInfo[pathInfo.length - 1];
 
   return (
-    <IssueContainer>
-      <IssueHeader>
-        <h1>ISSUE: {`${issue.name}(${fileInfo})`}</h1>
-        <h2> {issue.message}</h2>
-        <h2>EVENT 개수 : {issue.errorEvents.length}</h2>
-        <h3>
-          마지막 이슈 발생시각: {new Date(issue.updatedAt).toLocaleString()}
-        </h3>
-      </IssueHeader>
-      <MenuContainer>
+    <div className={classes.DetailContainer}>
+      <div>
+        <DetailHeader
+          name={issue.name}
+          fileInfo={fileInfo}
+          message={issue.message}
+          count={issue.errorEvents.length}
+          issueId={issue._id}
+          projectId={issue.projectId}
+          date={new Date(issue.updatedAt).toLocaleString()}
+        />
+      </div>
+      <div className={classes.switchContainer}>
         <Button
           disabled={currentErrorEventIdx - 1 < 0}
           /* 인덱스 벗어나면 버튼 비활성화 */
           onClick={prevErrorEventHandler}
           variant="outlined"
-          color="default"
           className={classes.button}
           startIcon={<SkipPrevious />}
         >
@@ -128,20 +131,15 @@ const MainContainer = (props: { issueId: string }) => {
             currentErrorEventIdx + 1 >= issue.errorEvents.length
           } /* 인덱스 벗어나면 버튼 비활성화 */
           variant="outlined"
-          color="default"
           className={classes.button}
           startIcon={<SkipNext />}
         >
           다음 이벤트
         </Button>
-      </MenuContainer>
-      <TagArea tags={errorEvent.tags} /* 태그 출력하는 영역  컴포넌트 */ />
-      <ErrorEventInfo
-        errorEvent={
-          errorEvent
-        } /* 현재 보고있는 에러 이벤트를 출력하는 컴포넌트 */
-      />
-    </IssueContainer>
+      </div>
+      <ErrorEventInfo errorEvent={errorEvent} />
+      <TagArea tags={errorEvent.tags} />
+    </div>
   );
 };
 

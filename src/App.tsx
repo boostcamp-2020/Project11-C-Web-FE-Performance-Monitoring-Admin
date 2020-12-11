@@ -5,20 +5,20 @@ import Projects from '@pages/Projects';
 import ProjectNew from '@pages/ProjectNew';
 import ProjectDetail from '@pages/ProjectDetail';
 import Issues from '@pages/Issues';
-import Header from '@components/utils/Header';
 import IssueDetail from '@pages/IssueDetail';
 import GlobalStyle from './style/globalStyle';
+import Header from './components/utils/Header';
 
 const App: React.FC = () => {
   return (
     <>
       <GlobalStyle />
-      {/* <Header /> */}
+      <Header />
       <Route path="/" component={Login} exact />
       <Route path="/projects" component={Projects} exact />
       <Switch>
         <Route path="/projects/new" component={ProjectNew} exact />
-        <Route path="/projects/:projectId" component={ProjectDetail} exact />
+        <Route path="/projects/:projectId" component={Issues} exact />
       </Switch>
       <Route path="/issues" component={Issues} exact />
       <Route path="/issues/:issueId" component={IssueDetail} />

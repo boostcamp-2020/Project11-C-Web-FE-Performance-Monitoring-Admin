@@ -1,9 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const TagContainer = styled.div`
-  border: 0.05rem rgba(0, 0, 0, 0.35) solid;
-`;
+const TagContainer = styled.div``;
 
 const TagArea = (props: { tags: {} }) => {
   const { tags } = props;
