@@ -64,6 +64,7 @@ const TableColumn = props => {
   const { issues } = props;
   const [disable, setDisable] = useState(true);
   console.log('밖', resolveState);
+  console.log(issues);
 
   const handleCheckedAll = event => {
     console.log('all before', resolveState);
@@ -126,6 +127,7 @@ const TableColumn = props => {
   };
 
   useEffect(() => {
+    console.log(issues);
     if (resolveState.length === 0) {
       console.log('useEffect');
       setDisable(true);

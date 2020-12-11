@@ -70,7 +70,7 @@ const OauthLink = styled.i`
 
 const RightContents = () => {
   const OauthHandler = () => {
-    window.location.href = 'http://localhost:3000/oauth/google';
+    window.location.href = `${process.env.API_URL}/oauth/google`;
   };
   return (
     <Container>
