@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import axios from 'axios';
 import AccessTimeIcon from '@material-ui/icons/AccessTime';
@@ -28,11 +29,18 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'column',
     width: '100%',
   },
-  IssueName: {
+  IssueNameArea: {
+    display: 'flex',
+    flexDirection: 'row',
     flex: '1',
     width: '100%',
     color: '#FA5858',
     fontSize: '1.2rem',
+  },
+  IssueName: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignSelf: 'center',
   },
   IssueInfoItem: {
     flex: '1',
@@ -81,6 +89,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const IssueItem = props => {
+  const history = useHistory();
   const classes = useStyles();
   const dateDiff = DateHelper.getDiff(props.date);
   const dateForm = DateHelper.getForm(props.date);
@@ -91,6 +100,10 @@ const IssueItem = props => {
   const [errorEvents, setErrorEvents] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+
+  function onTitleCiick() {
+    history.push(`/issues/${props.issueId}`);
+  }
 
   useEffect(() => {
     const getIssues = async () => {
@@ -125,14 +138,17 @@ const IssueItem = props => {
   return (
     <div className={classes.container}>
       <div className={classes.IssueInfo}>
-        <div className={classes.IssueName}>
+        <div className={classes.IssueNameArea}>
           <input
             type="checkbox"
             id={props.issueId}
             onClick={props.onClick}
             className="item_checkbox"
+            style={{ alignSelf: 'center' }}
           />
-          {props.name + '(' + fileInfo}
+          <div className={classes.IssueName} onClick={onTitleCiick}>
+            {props.name + '(' + fileInfo}
+          </div>
         </div>
         <div className={classes.IssueInfoItem}>{props.description}</div>
         <div className={classes.timeContainer}>
