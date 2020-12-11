@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { CreateProject } from './Interface';
 
 const getUser = async () => {
   try {
@@ -30,4 +31,14 @@ const getProjects = async () => {
   }
 };
 
-export default { getUser, getProject, getProjects };
+const postProject = async (data: CreateProject): Promise<any> => {
+  try {
+    return await axios.post(`${process.env.API_URL}/project`, data, {
+      withCredentials: true,
+    });
+  } catch (err) {
+    return err;
+  }
+};
+
+export default { getUser, getProject, getProjects, postProject };

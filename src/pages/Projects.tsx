@@ -7,7 +7,7 @@ import Api from '@utils/Api';
 
 const ProjectsRoot = styled.div`
   top: 4.75rem;
-  margin: 2rem;
+  margin: 2rem 2rem 2rem 17rem;
 `;
 
 const ProjectsHeader = styled.div`
@@ -40,7 +40,7 @@ const ProjectsHeaderButton = styled.button`
 
 const ProjectsBody = styled.div`
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(4, minmax(20%, 25rem));
   column-gap: 2rem;
   row-gap: 2rem;
 `;
