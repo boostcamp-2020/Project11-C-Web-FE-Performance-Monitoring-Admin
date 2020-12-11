@@ -28,9 +28,7 @@ const MainPage = ({ match }) => {
   return (
     <div className={classes.root}>
       <CssBaseline />
-      <AppBar position="fixed" className={classes.appBar}>
-        <Header />
-      </AppBar>
+
       <LeftBar />
       <main className={classes.content}>
         <Toolbar />

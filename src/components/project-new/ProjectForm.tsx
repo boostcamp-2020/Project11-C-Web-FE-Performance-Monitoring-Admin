@@ -4,7 +4,7 @@ import styled from 'styled-components';
 const ProjectFormWrapper = styled.form`
   display: flex;
   flex-direction: column;
-  padding: 0 1rem 1rem 1rem;
+  padding: 0;
 `;
 
 const InputWrapper = styled.div`
