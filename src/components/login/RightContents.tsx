@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 const Container = styled.div`
@@ -38,12 +38,16 @@ const Form = styled.div`
   text-align: left;
 `;
 
-const TextField = styled.input`
+const TextField = styled.input<{ borderOption: string }>`
   height: 2rem;
   margin-top: 1%;
   background-color: rgba(255, 255, 255, 0.1);
   outline: none;
   border: none;
+  padding: 10px;
+  font-size: 1rem;
+  border: ${props => props.borderOption};
+  border-radius: 5px;
 `;
 
 const FormText = styled.p`
@@ -58,6 +62,11 @@ const SingUpButton = styled.button`
   border-radius: 5px;
   font-size: 2rem;
   color: gray;
+  :hover {
+    background-color: #00bfa5;
+    color: #f1f1f1;
+    transition: 0.5s;
+  }
 `;
 
 const OauthLink = styled.i`
@@ -72,6 +81,22 @@ const RightContents = () => {
   const OauthHandler = () => {
     window.location.href = 'http://localhost:3000/oauth/google';
   };
+
+  const [usernameInput, setUsenameInput] = useState<string>('');
+  const [emailInput, setEmailInput] = useState<string>('');
+  const [passwordInput, setPasInput] = useState<string>('');
+
+  const handleInput = setInput => event => {
+    setInput(event.target.value);
+  };
+
+  const checkInputValidation = inputValue => {
+    console.log(inputValue);
+    if (inputValue === '') return 'none';
+    if (inputValue.length < 8) return '2px solid rgba(255, 0, 0, 0.5)';
+    return '2px solid rgba(0, 255, 0, 0.5)';
+  };
+
   return (
     <Container>
       <BackgroundImage src="../../public/svg/circle.svg" />
@@ -81,11 +106,23 @@ const RightContents = () => {
           including a number and a lowercase letter.
         </FormText>
         <FormText>Username</FormText>
-        <TextField />
+        <TextField
+          value={usernameInput}
+          onChange={handleInput(setUsenameInput)}
+          borderOption={checkInputValidation(usernameInput)}
+        />
         <FormText>Email</FormText>
-        <TextField />
+        <TextField
+          value={emailInput}
+          onChange={handleInput(setEmailInput)}
+          borderOption={checkInputValidation(emailInput)}
+        />
         <FormText>Password</FormText>
-        <TextField />
+        <TextField
+          value={passwordInput}
+          onChange={handleInput(setPasInput)}
+          borderOption={checkInputValidation(passwordInput)}
+        />
         <SingUpButton>Sign Up</SingUpButton>
         <FormText>
           Click <OauthLink onClick={OauthHandler}>this </OauthLink> - if you
