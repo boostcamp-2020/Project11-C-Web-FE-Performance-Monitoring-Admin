@@ -1,19 +1,43 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import { makeStyles } from '@material-ui/core/styles';
 import styled from 'styled-components';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import ProjectCard from '@components/projects/ProjectCard';
 import Api from '@utils/Api';
+import LeftBar from '@components/Issues/LeftBar';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import Toolbar from '@material-ui/core/Toolbar';
 
-const ProjectsRoot = styled.div`
-  top: 4.75rem;
-  margin: 2rem 2rem 2rem 17rem;
-`;
+const useStyles = makeStyles(theme => ({
+  ProjectsRoot: {
+    flexGrow: 1,
+    padding: theme.spacing(3),
+    paddingTop: '0',
+    paddingLeft: '0',
+    marginTop: '-0.5rem',
+    color: 'white',
+  },
+  root: {
+    display: 'flex',
+  },
+  appBar: {
+    zIndex: theme.zIndex.drawer + 1,
+    backgroundColor: 'rgba(0,0,0,0.3)',
+  },
+  content: {
+    flexGrow: 1,
+    padding: theme.spacing(3),
+  },
+}));
+
+const ProjectsRoot = styled.div``;
 
 const ProjectsHeader = styled.div`
   display: flex;
   justify-content: space-between;
-  margin: 0 0 2rem 0;
+  margin: 0;
+  margin-bottom: 1rem;
 `;
 
 const ProjectsHeaderTitle = styled.span`
@@ -46,6 +70,7 @@ const ProjectsBody = styled.div`
 `;
 
 const Projects = () => {
+  const classes = useStyles();
   const history = useHistory();
 
   const [projects, setProjects] = useState([]);
@@ -64,20 +89,28 @@ const Projects = () => {
   }, []);
 
   return (
-    <ProjectsRoot>
-      <ProjectsHeader>
-        <ProjectsHeaderTitle>Projects</ProjectsHeaderTitle>
-        <ProjectsHeaderButton onClick={clickProjectsHeaderButton}>
-          <AddCircleOutlineIcon />
-          Create Project
-        </ProjectsHeaderButton>
-      </ProjectsHeader>
-      <ProjectsBody>
-        {projects.map(project => (
-          <ProjectCard key={project._id} project={project} />
-        ))}
-      </ProjectsBody>
-    </ProjectsRoot>
+    <div className={classes.root}>
+      <CssBaseline />
+
+      <LeftBar />
+      <main className={classes.content}>
+        <Toolbar />
+        <div className={classes.ProjectsRoot}>
+          <ProjectsHeader>
+            <ProjectsHeaderTitle>Projects</ProjectsHeaderTitle>
+            <ProjectsHeaderButton onClick={clickProjectsHeaderButton}>
+              <AddCircleOutlineIcon />
+              Create Project
+            </ProjectsHeaderButton>
+          </ProjectsHeader>
+          <ProjectsBody>
+            {projects.map(project => (
+              <ProjectCard key={project._id} project={project} />
+            ))}
+          </ProjectsBody>
+        </div>
+      </main>
+    </div>
   );
 };
 

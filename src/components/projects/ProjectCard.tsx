@@ -19,7 +19,7 @@ const ProjectCardHeader = styled.div`
   display: flex;
   flex-direction: column;
   height: 4.5rem;
-  background-color: rgba(0, 0, 0, 0.1);
+  background-color: rgba(0, 0, 0, 0.4);
   & span {
     width: inherit;
     overflow: hidden;
@@ -44,12 +44,14 @@ const ProjectCardHeaderDescription = styled.span`
   font-weight: 300;
 `;
 
-const ProjectCardBody = styled.div``;
+const ProjectCardBody = styled.div`
+  background-color: rgba(0, 0, 0, 0.3);
+`;
 
 const ProjectCardBodyErrorCount = styled.div`
   font-size: 1rem;
   font-weight: 400;
-  color: rgba(180, 4, 4, 1);
+  color: #fa5858;
 `;
 
 const ProjectCardBodyChart = styled.div`
