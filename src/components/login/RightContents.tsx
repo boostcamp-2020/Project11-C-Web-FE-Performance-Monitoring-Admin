@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
+import styled, { css, keyframes } from 'styled-components';
+import { makeStyles } from '@material-ui/core/styles';
 
 const Container = styled.div`
   flex: 1.1;
@@ -15,18 +16,29 @@ const Container = styled.div`
   text-align: center;
 `;
 
+const rotate = keyframes`
+  0% {left: 40%; transform: rotate(0deg);}
+  25% {left: 43%; transform: rotate(90deg);}
+  50% {left: 46%; transform: rotate(180deg);}
+  75% {left: 49%; transform: rotate(270deg);}
+  100% {left: 52%; transform: rotate(360deg);}
+`;
+
 const BackgroundImage = styled.img`
   width: 20rem;
   margin-top: 4.5rem;
   position: absolute;
   z-index: 1;
-  top: 4.3rem;
-  left: 58.5rem;
+  top: 10%;
+  left: 52%;
+  animation: ${rotate} 5s linear;
 `;
 
 const Form = styled.div`
   display: flex;
   flex-direction: column;
+
+  width: 400px;
 
   padding-top: 0.5rem;
   padding-bottom: 1.5rem;
@@ -81,6 +93,9 @@ const RightContents = () => {
   const OauthHandler = () => {
     window.location.href = `${process.env.API_URL}/oauth/google`;
   };
+  const Github = () => {
+    window.location.href = `${process.env.API_URL}/oauth/github`;
+  };
 
   const [usernameInput, setUsenameInput] = useState<string>('');
   const [emailInput, setEmailInput] = useState<string>('');
@@ -91,7 +106,6 @@ const RightContents = () => {
   };
 
   const checkInputValidation = inputValue => {
-    console.log(inputValue);
     if (inputValue === '') return 'none';
     if (inputValue.length < 8) return '2px solid rgba(255, 0, 0, 0.5)';
     return '2px solid rgba(0, 255, 0, 0.5)';
@@ -125,9 +139,9 @@ const RightContents = () => {
         />
         <SingUpButton>Sign Up</SingUpButton>
         <FormText>
-          Click <OauthLink onClick={OauthHandler}>this </OauthLink> - if you
-          want to sign in more simply. You are signed in{' '}
-          <OauthLink onClick={OauthHandler}>with Google</OauthLink>.
+          Click this if you want to sign in more simply. You are signed in with{' '}
+          <OauthLink onClick={OauthHandler}>Google</OauthLink> or
+          <OauthLink onClick={Github}>Github</OauthLink>
         </FormText>
       </Form>
     </Container>
