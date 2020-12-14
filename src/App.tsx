@@ -8,7 +8,7 @@ import Usage from '@pages/Usage';
 import Issues from '@pages/Issues';
 import IssueDetail from '@pages/IssueDetail';
 import GlobalStyle from './style/globalStyle';
-import Header from './components/utils/Header';
+import Header from '@components/common/Header';
 import AppBar from '@material-ui/core/AppBar';
 import { makeStyles } from '@material-ui/core/styles';
 
