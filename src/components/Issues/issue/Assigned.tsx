@@ -58,6 +58,20 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
+const changeAssinged = async (
+  issueId: string,
+  memberId: string,
+  projectId: string
+) => {
+  const result = await axios.put(
+    `${process.env.API_URL}/issue/assignee/${projectId}`,
+    { issueId: issueId, assignee: memberId },
+    {
+      withCredentials: true,
+    }
+  );
+};
+
 export default function Assigned(props) {
   const classes = useStyles();
   const [modalOpen, setModalOpen] = React.useState(false);
@@ -83,13 +97,15 @@ export default function Assigned(props) {
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
 
-  const [projectMembers, setProjectMembers] = useState(null);
+  const [projectMembers, setProjectMembers] = useState(props.members);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     const getProject = async () => {
       try {
         setProjectMembers(null);
+        setLoading(true);
 
         const response: any = await axios.get(
           `${process.env.API_URL}/project/${props.projectId}`,
@@ -98,23 +114,21 @@ export default function Assigned(props) {
           }
         );
 
-        // setProjectMembers(response.data.members);
-        setProjectMembers([
-          { _id: 'a1234', name: 'ohmink', email: 'testers@test.com' },
-          { _id: 'bdd00', name: 'jeesooha', email: 'hong@universe.com' },
-        ]);
+        setProjectMembers(response.data.members);
+        setLoading(false);
       } catch (e) {
         setError(e);
       }
     };
 
-    getProject();
+    if (props.projectId) {
+      getProject();
+    } else {
+      setLoading(false);
+    }
   }, []);
 
   if (error) return <div>에러가 발생했습니다</div>;
-  if (!projectMembers) {
-    return null;
-  }
 
   //담당자 변경하는 api 요청을 추가해야함
   const handleAssigned = event => {
@@ -147,33 +161,40 @@ export default function Assigned(props) {
     parent.replaceChild(newAssigned, openIcon);
 
     setAnchorEl(null);
+
+    const selectedMember = projectMembers.find(
+      member => member.name === assignedUser
+    );
+
+    changeAssinged(props.issueId, selectedMember._id, props.projectId);
   };
 
-  let Members = (
-    <div className={classes.usersContainer}>
-      {projectMembers.map(member => (
-        <Member
-          key={member._id}
-          name={member.name}
-          target={classes.openUserListButton}
-          onClick={handleAssigned}
-        />
-      ))}
-      <span className={classes.divider} />
-      <Button
-        variant="contained"
-        size="small"
-        className={classes.addButton}
-        startIcon={<AddBoxIcon />}
-        onClick={handleModalOpen}
-      >
-        Invite someone?
-      </Button>
-    </div>
-  );
-
-  if (projectMembers.length === 0) {
-    Members = (
+  if (loading) {
+    return <div>로딩 중...</div>;
+  }
+  let Members =
+    projectMembers.length > 0 ? (
+      <div className={classes.usersContainer}>
+        {projectMembers.map(member => (
+          <Member
+            key={member._id}
+            name={member.name}
+            target={classes.openUserListButton}
+            onClick={handleAssigned}
+          />
+        ))}
+        <span className={classes.divider} />
+        <Button
+          variant="contained"
+          size="small"
+          className={classes.addButton}
+          startIcon={<AddBoxIcon />}
+          onClick={handleModalOpen}
+        >
+          Invite someone?
+        </Button>
+      </div>
+    ) : (
       <div className={classes.usersContainer}>
         There is no one.
         <span className={classes.divider} />
@@ -188,7 +209,6 @@ export default function Assigned(props) {
         </Button>
       </div>
     );
-  }
 
   return (
     <div className="assignedContainer">

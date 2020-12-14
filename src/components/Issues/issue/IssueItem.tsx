@@ -3,10 +3,10 @@ import { useHistory } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import axios from 'axios';
 import AccessTimeIcon from '@material-ui/icons/AccessTime';
-import DateHelper from '@components/utils/DateHelper';
 import Graph from '@components/utils/Graph';
 import Avatar from '@material-ui/core/Avatar';
 import Assigned from './Assigned';
+import moment from 'moment';
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -17,7 +17,6 @@ const useStyles = makeStyles(theme => ({
     borderWidth: '0.1rem',
     borderColor: 'rgba(255,255,255,0.1)',
     borderTopStyle: 'solid',
-    border: 'red',
   },
   IssueInfo: {
     gridColumnEnd: 'span 5',
@@ -91,9 +90,14 @@ const useStyles = makeStyles(theme => ({
 const IssueItem = props => {
   const history = useHistory();
   const classes = useStyles();
-  const dateDiff = DateHelper.getDiff(props.date);
-  const dateForm = DateHelper.getForm(props.date);
 
+  const now = moment();
+  const issueDate = moment(props.date);
+  const dateDiff: string =
+    now.diff(issueDate, 'days') > 0
+      ? `${String(now.diff(issueDate, 'days'))}일`
+      : `${String(now.diff(issueDate, 'hour'))}시간`;
+  const dateForm = moment(props.date).format('YYYY.MM.DD HH:MM');
   const pathInfo = props.stack.split('\n')[1].split('/');
   const fileInfo = pathInfo[pathInfo.length - 1];
 
@@ -147,13 +151,13 @@ const IssueItem = props => {
             style={{ alignSelf: 'center' }}
           />
           <div className={classes.IssueName} onClick={onTitleCiick}>
-            {props.name + '(' + fileInfo}
+            {props.name + '' + fileInfo}
           </div>
         </div>
         <div className={classes.IssueInfoItem}>{props.description}</div>
         <div className={classes.timeContainer}>
           <AccessTimeIcon fontSize="small" className={classes.timeIcon} />
-          {dateDiff}일 전, {dateForm}
+          {dateForm}, {dateDiff} 전
         </div>
       </div>
       <Graph errorEvents={errorEvents} />
