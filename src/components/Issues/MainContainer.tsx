@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -6,7 +6,8 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import Filter from './issue/Filter';
 import TableColumn from './issue/TableColumn';
-import ResolveProvider from './issue/ResolveProvider';
+import ResolveProvider from './context/ResolveProvider';
+import NoticeEmpty from '../common/NoticeEmpty';
 
 const useStyles = makeStyles(theme => ({
   backdrop: {
@@ -39,15 +40,13 @@ const MainContainer = ({ projectId }) => {
             withCredentials: true,
           }
         );
-        console.log('-----------');
-        console.log(response);
 
         const checkBoxState: boolean[] = new Array(response.data.length + 1);
 
         for (let index = 0; index < checkBoxState.length; index++) {
           checkBoxState[index] = false;
         }
-
+        //필터 한 번 하고
         setIssues(response.data);
       } catch (e) {
         setError(e);
@@ -69,10 +68,18 @@ const MainContainer = ({ projectId }) => {
   }
   if (error) return <div>에러가 발생했습니다</div>;
   if (!issues) return null;
+  if (issues.length === 0) {
+    return (
+      <div className={classes.MainCotainer}>
+        <Filter eventNum={issues.length} projectId={projectId} />
+        <NoticeEmpty type="issues" />
+      </div>
+    );
+  }
 
   return (
     <div className={classes.MainCotainer}>
-      <Filter eventNum={issues.length} projectId={issues[0].projectId} />
+      <Filter eventNum={issues.length} projectId={projectId} />
       <ResolveProvider>
         <TableColumn issues={issues} />
       </ResolveProvider>
