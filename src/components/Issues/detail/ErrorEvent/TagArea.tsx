@@ -2,7 +2,6 @@ import React from 'react';
 import MainPoint from './MainPoint';
 import { makeStyles } from '@material-ui/core/styles';
 import Chip from '@material-ui/core/Chip';
-import Graph from '@components/utils/Graph';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -58,16 +57,24 @@ const TagArea = (props: { tags: {} }) => {
   const osInfo: string = getOsInfo(tagArr);
   const etc: string[][] = getTags(tagArr);
 
-  return (
-    <div>
-      <MainPoint browser={browserInfo} nodeVersion={nodeVersion} os={osInfo} />
-      {etc.map(tag => (
+  const getTagItem = tag => {
+    if (tag[0] !== 'appVersion') {
+      return (
         <Chip
           key={tag[0]}
           label={`${tag[0]} - ${tag[1]}`}
           className={classes.root}
         />
-      ))}
+      );
+    }
+
+    return null;
+  };
+
+  return (
+    <div>
+      <MainPoint browser={browserInfo} nodeVersion={nodeVersion} os={osInfo} />
+      {etc.map(tag => getTagItem(tag))}
     </div>
   );
 };

@@ -51,14 +51,6 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function generate(element) {
-  return [0, 1, 2].map(value =>
-    React.cloneElement(element, {
-      key: value,
-    })
-  );
-}
-
 const StackItem = ({ stack, code, line, errorRoot, tags }) => {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState('panel1');
@@ -89,7 +81,7 @@ const StackItem = ({ stack, code, line, errorRoot, tags }) => {
         );
       })
     ) : (
-      <div>-</div>
+      <p>이 프로젝트는 코드를 확인할 수 없습니다.</p>
     );
 
   return (
