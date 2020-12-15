@@ -153,7 +153,7 @@ const MainPoin = ({ browser, nodeVersion, os }) => {
           <div className={classes.details}>
             <img
               className={classes.ImgLayout}
-              src="../../../public/png/nodeIcon.png"
+              src="../../../public/png/NodeIcon.png"
               height="30"
             />
             <p className={classes.InfoLayout}>Node {nodeVersion}</p>

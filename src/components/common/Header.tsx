@@ -1,4 +1,5 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import Grid from '@material-ui/core/Grid';
 
@@ -39,10 +40,16 @@ const HeaderContainer = styled.div`
 `;
 
 const GlobalHeader = () => {
+  const history = useHistory();
+
   const HomeHandler = () => {
-    //process.env로 변경해야 함.
-    window.location.href = 'http://localhost:8000/';
+    history.push('/');
   };
+
+  const clickDocs = () => {
+    history.push('/docs');
+  };
+
   return (
     <HeaderContainer>
       <Grid container spacing={1}>
@@ -50,7 +57,7 @@ const GlobalHeader = () => {
           <HomeButton onClick={HomeHandler}>@Acent</HomeButton>
         </Grid>
         <Grid item xs={6}>
-          <HeaderButton>Docs</HeaderButton>
+          <HeaderButton onClick={clickDocs}>Docs</HeaderButton>
           <HeaderButton>Tutorial</HeaderButton>
         </Grid>
         <Grid item xs>

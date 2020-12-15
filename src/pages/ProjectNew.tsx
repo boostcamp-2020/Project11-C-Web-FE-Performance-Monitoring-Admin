@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import Platforms from '@components/project-new/Platforms';
 import ProjectForm from '@components/project-new/ProjectForm';
 import Api from '../utils/Api';
-import LeftBar from '@components/Issues/LeftBar';
+import LeftBar from '@components/common/LeftBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Toolbar from '@material-ui/core/Toolbar';
 import { makeStyles } from '@material-ui/core/styles';

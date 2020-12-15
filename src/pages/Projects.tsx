@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import ProjectCard from '@components/projects/ProjectCard';
 import Api from '@utils/Api';
-import LeftBar from '@components/Issues/LeftBar';
+import LeftBar from '@components/common/LeftBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Toolbar from '@material-ui/core/Toolbar';
 import NoticeEmpty from '../components/common/NoticeEmpty';
