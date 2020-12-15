@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import styled, { css, keyframes } from 'styled-components';
 import { makeStyles } from '@material-ui/core/styles';
 
+const MIN_USERNAME_LENGTH = 4;
+const MIN_PASSWORD_LENGTH = 8;
+
 const Container = styled.div`
   flex: 1.1;
 
@@ -105,9 +108,24 @@ const RightContents = () => {
     setInput(event.target.value);
   };
 
-  const checkInputValidation = inputValue => {
+  const isRightUserName = inputValue => {
+    if (inputValue.length < MIN_USERNAME_LENGTH) return false;
+    return true;
+  };
+
+  const isRightEmail = inputValue => {
+    const emailRegExp = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]+\.[a-zA-Z]+$/i;
+    return emailRegExp.test(inputValue);
+  };
+
+  const isRightPassword = inputValue => {
+    if (inputValue.length < MIN_PASSWORD_LENGTH) return false;
+    return true;
+  };
+
+  const checkInputValidation = (inputValue, isValid) => {
     if (inputValue === '') return 'none';
-    if (inputValue.length < 8) return '2px solid rgba(255, 0, 0, 0.5)';
+    if (!isValid(inputValue)) return '2px solid rgba(255, 0, 0, 0.5)';
     return '2px solid rgba(0, 255, 0, 0.5)';
   };
 
@@ -123,19 +141,19 @@ const RightContents = () => {
         <TextField
           value={usernameInput}
           onChange={handleInput(setUsenameInput)}
-          borderOption={checkInputValidation(usernameInput)}
+          borderOption={checkInputValidation(usernameInput, isRightUserName)}
         />
         <FormText>Email</FormText>
         <TextField
           value={emailInput}
           onChange={handleInput(setEmailInput)}
-          borderOption={checkInputValidation(emailInput)}
+          borderOption={checkInputValidation(emailInput, isRightEmail)}
         />
         <FormText>Password</FormText>
         <TextField
           value={passwordInput}
           onChange={handleInput(setPasInput)}
-          borderOption={checkInputValidation(passwordInput)}
+          borderOption={checkInputValidation(passwordInput, isRightPassword)}
         />
         <SingUpButton>Sign Up</SingUpButton>
         <FormText>
