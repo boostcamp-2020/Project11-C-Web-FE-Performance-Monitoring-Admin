@@ -72,6 +72,9 @@ const CreateProjectButton = styled.button`
   &:disabled:hover {
     cursor: auto;
   }
+  &:disabled {
+    color: rgba(0, 0, 0, 0.6);
+  }
 `;
 
 const ProjectNew = () => {
