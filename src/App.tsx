@@ -11,6 +11,7 @@ import GlobalStyle from './style/globalStyle';
 import Header from '@components/common/Header';
 import AppBar from '@material-ui/core/AppBar';
 import { makeStyles } from '@material-ui/core/styles';
+import DocsPage from '@pages/DocsPage';
 
 const useStyles = makeStyles(theme => ({
   appBar: {
@@ -31,11 +32,15 @@ const App: React.FC = () => {
       <Route path="/projects" component={Projects} exact />
       <Switch>
         <Route path="/projects/new" component={ProjectNew} exact />
-        <Route path="/projects/:projectId" component={Issues} exact />
+        <Route path="/projects/issues/:projectId" component={Issues} exact />
+        <Route
+          path="/projects/issues/detail/:issueId"
+          component={IssueDetail}
+          exact
+        />
       </Switch>
-      <Route path="/issues" component={Issues} exact />
-      <Route path="/issues/:issueId" component={IssueDetail} />
       <Route path="/usage/:platform" component={Usage} exact />
+      <Route path="/docs" component={DocsPage} exact />
     </>
   );
 };
