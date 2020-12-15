@@ -46,8 +46,12 @@ const GlobalHeader = () => {
     history.push('/');
   };
 
-  const clickDocs = () => {
+  const docsClicked = () => {
     history.push('/docs');
+  };
+
+  const tutorialClicked = () => {
+    history.push('/tutorial');
   };
 
   return (
@@ -57,8 +61,8 @@ const GlobalHeader = () => {
           <HomeButton onClick={HomeHandler}>@Acent</HomeButton>
         </Grid>
         <Grid item xs={6}>
-          <HeaderButton onClick={clickDocs}>Docs</HeaderButton>
-          <HeaderButton>Tutorial</HeaderButton>
+          <HeaderButton onClick={docsClicked}>Docs</HeaderButton>
+          <HeaderButton onClick={tutorialClicked}>Tutorial</HeaderButton>
         </Grid>
         <Grid item xs>
           <HeaderButton>Sign in</HeaderButton>

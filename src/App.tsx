@@ -12,6 +12,8 @@ import Header from '@components/common/Header';
 import AppBar from '@material-ui/core/AppBar';
 import { makeStyles } from '@material-ui/core/styles';
 import DocsPage from '@pages/DocsPage';
+import Tutorial from '@pages/Tutorial';
+import PositionProvider from './context/PositionProvider';
 
 const useStyles = makeStyles(theme => ({
   appBar: {
@@ -29,18 +31,21 @@ const App: React.FC = () => {
         <Header />
       </AppBar>
       <Route path="/" component={Login} exact />
-      <Route path="/projects" component={Projects} exact />
-      <Switch>
-        <Route path="/projects/new" component={ProjectNew} exact />
-        <Route path="/projects/issues/:projectId" component={Issues} exact />
-        <Route
-          path="/projects/issues/detail/:issueId"
-          component={IssueDetail}
-          exact
-        />
-      </Switch>
+      <PositionProvider>
+        <Route path="/projects" component={Projects} exact />
+        <Switch>
+          <Route path="/projects/new" component={ProjectNew} exact />
+          <Route path="/projects/issues/:projectId" component={Issues} exact />
+          <Route
+            path="/projects/issues/detail/:issueId"
+            component={IssueDetail}
+            exact
+          />
+        </Switch>
+      </PositionProvider>
       <Route path="/usage/:platform" component={Usage} exact />
       <Route path="/docs" component={DocsPage} exact />
+      <Route path="/tutorial" component={Tutorial} exact />
     </>
   );
 };

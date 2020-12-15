@@ -6,7 +6,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import Filter from './issue/Filter';
 import TableColumn from './issue/TableColumn';
-import ResolveProvider from './context/ResolveProvider';
+import ResolveProvider from '../../context/ResolveProvider';
 import NoticeEmpty from '../common/NoticeEmpty';
 
 const useStyles = makeStyles(theme => ({
@@ -42,11 +42,8 @@ const MainContainer = ({ projectId }) => {
         );
 
         const checkBoxState: boolean[] = new Array(response.data.length + 1);
+        checkBoxState.fill(false);
 
-        for (let index = 0; index < checkBoxState.length; index++) {
-          checkBoxState[index] = false;
-        }
-        //필터 한 번 하고
         setIssues(response.data);
       } catch (e) {
         setError(e);

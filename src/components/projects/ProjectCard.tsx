@@ -76,7 +76,7 @@ const ProjectCard = ({ project }) => {
   const clickProjectCard = () => {
     history.push(`/projects/issues/${project._id}`);
   };
-  console.log(project.platform);
+
   return (
     <ProjectCardRoot onClick={clickProjectCard}>
       <ProjectCardHeader>
