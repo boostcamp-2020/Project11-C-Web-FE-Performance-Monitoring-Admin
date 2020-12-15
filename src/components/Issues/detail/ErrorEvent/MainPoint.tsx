@@ -77,7 +77,6 @@ const getBrowserImg = (browserInfo: string) => {
 };
 
 const getOsInfo = (os: string) => {
-  console.log(os);
   const basePath: string = '../../../public/png/';
   if (os.includes('Windows')) {
     const version = os.split(' ')[1];
