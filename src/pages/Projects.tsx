@@ -9,6 +9,8 @@ import LeftBar from '@components/Issues/LeftBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Toolbar from '@material-ui/core/Toolbar';
 import NoticeEmpty from '../components/common/NoticeEmpty';
+import Backdrop from '@material-ui/core/Backdrop';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const useStyles = makeStyles(theme => ({
   ProjectsRoot: {
@@ -30,9 +32,11 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1,
     padding: theme.spacing(3),
   },
+  backdrop: {
+    zIndex: theme.zIndex.drawer + 1,
+    color: '#fff',
+  },
 }));
-
-const ProjectsRoot = styled.div``;
 
 const ProjectsHeader = styled.div`
   display: flex;
@@ -75,9 +79,12 @@ const Projects = () => {
   const history = useHistory();
 
   const [projects, setProjects] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const readProjects = async () => {
+    setLoading(true);
     const { data } = await Api.getProjects();
+    setLoading(false);
     setProjects([...data]);
   };
 
@@ -89,6 +96,15 @@ const Projects = () => {
     readProjects();
   }, []);
 
+  if (loading) {
+    return (
+      <div>
+        <Backdrop className={classes.backdrop} open>
+          <CircularProgress color="inherit" />
+        </Backdrop>
+      </div>
+    );
+  }
   if (projects.length === 0) {
     return (
       <div className={classes.root}>
