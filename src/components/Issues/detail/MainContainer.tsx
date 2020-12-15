@@ -7,7 +7,6 @@ import CircularProgress from '@material-ui/core/CircularProgress/CircularProgres
 import SkipPrevious from '@material-ui/icons/SkipPrevious';
 import SkipNext from '@material-ui/icons/SkipNext';
 import ErrorEventInfo from './ErrorEvent/ErrorEventInfo';
-import TagArea from './TagArea';
 import DetailHeader from './Header/DetailHeader';
 
 const useStyles = makeStyles(theme => ({
@@ -25,7 +24,7 @@ const useStyles = makeStyles(theme => ({
     paddingLeft: '1rem',
     paddingRight: '1rem',
     backgroundColor: 'rgba(0,0,0,0.3)',
-    height: '93%',
+    minHeight: '100%',
     color: 'white',
   },
   switchContainer: {
@@ -71,7 +70,6 @@ const MainContainer = (props: { issueId: string }) => {
   const initISsueData = async () => {
     setIsLoading(true);
     const issueData = await IssueDetailApi.getDetailIssueByIssueId(issueId);
-    console.log(issueData);
     setIssue(issueData);
     const errorEventId =
       issueData.errorEvents[issueData.errorEvents.length - 1];
@@ -100,7 +98,7 @@ const MainContainer = (props: { issueId: string }) => {
   if (!errorEvent) return null;
   const pathInfo = issue?.stack.split('\n')[1].split('/');
   const fileInfo = pathInfo[pathInfo.length - 1];
-
+  console.log(issue);
   return (
     <div className={classes.DetailContainer}>
       <div>
@@ -110,8 +108,9 @@ const MainContainer = (props: { issueId: string }) => {
           message={issue.message}
           count={issue.errorEvents.length}
           issueId={issue._id}
-          projectId={issue.projectId}
-          date={new Date(issue.updatedAt).toLocaleString()}
+          projectId={issue.projectId._id}
+          members={issue.projectId.members}
+          date={new Date(errorEvent.date).toLocaleString()}
         />
       </div>
       <div className={classes.switchContainer}>
@@ -138,7 +137,6 @@ const MainContainer = (props: { issueId: string }) => {
         </Button>
       </div>
       <ErrorEventInfo errorEvent={errorEvent} />
-      <TagArea tags={errorEvent.tags} />
     </div>
   );
 };

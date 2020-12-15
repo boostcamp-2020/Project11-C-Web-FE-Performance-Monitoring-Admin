@@ -1,7 +1,7 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Stick from './Stick';
-// import { getDiff } from '@components/utils/DateHelper';
+import moment from 'moment';
 
 const useStyles = makeStyles(theme => ({
   graphContainer: {
@@ -23,12 +23,12 @@ const Graph = props => {
   }
   const errorList = props.errorEvents;
   errorList.forEach(error => {
-    const now: number = new Date().getTime();
-    const time: number = new Date(error.date).getTime();
-    const dateDiff: number = Math.ceil((now - time) / (1000 * 3600 * 24));
+    const now = moment();
+    const issueDate = moment(error.date);
+    const dateDiff: number = now.diff(issueDate, 'days');
 
     if (dateDiff < 15) {
-      stickValues[dateDiff - 1]++;
+      stickValues[dateDiff]++;
     }
   });
 

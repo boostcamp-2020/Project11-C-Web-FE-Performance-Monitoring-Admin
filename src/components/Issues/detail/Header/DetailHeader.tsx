@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import DoneIcon from '@material-ui/icons/Done';
@@ -6,6 +7,7 @@ import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import EventNoteIcon from '@material-ui/icons/EventNote';
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 import Assigned from '../../issue/Assigned';
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({
   eventsButton: {
@@ -44,7 +46,7 @@ const useStyles = makeStyles(theme => ({
     marginRight: '0.5rem',
     paddingTop: '0.5rem',
     height: 'fit-content',
-    alignSelf: 'flex-end',
+    alignSelf: 'flex-start',
     fontSize: '2rem',
   },
   FileInfo: {
@@ -130,14 +132,31 @@ const useStyles = makeStyles(theme => ({
 
 const DetailHeader = props => {
   const classes = useStyles();
-  console.log(props);
+  const history = useHistory();
+
+  const handleResolve = () => {
+    const updateIssuesResolve = async () => {
+      const result = await axios.put(
+        `${process.env.API_URL}/issue/resolved`,
+        { issueIdList: props.issueId, resolved: true },
+        {
+          withCredentials: true,
+        }
+      );
+
+      history.push(`/projects/${props.projectId}`);
+    };
+
+    updateIssuesResolve();
+  };
+
   return (
     <div className={classes.DetailHeaderContainer}>
       <div className={classes.IssueContainer}>
         <div className={classes.IssueContainerLeft}>
           <div className={classes.IssueInfoContainer}>
             <strong className={classes.IssueName}>{props.name}</strong>{' '}
-            <p className={classes.FileInfo}>({props.fileInfo}</p>
+            <p className={classes.FileInfo}>{props.fileInfo}</p>
           </div>
           <div className={classes.messageContainer}>
             <FiberManualRecordIcon className={classes.messageIcon} />{' '}
@@ -156,6 +175,7 @@ const DetailHeader = props => {
               variant="contained"
               className={classes.button}
               startIcon={<DoneIcon />}
+              onClick={handleResolve}
             >
               Resolve
             </Button>
@@ -181,7 +201,7 @@ const DetailHeader = props => {
             </div>
 
             <div className={classes.utilsValueDiv}>
-              <Assigned projectId={props.projectId} issueId={props.issueId} />
+              <Assigned members={props.members} issueId={props.issueId} />
             </div>
           </div>
         </div>

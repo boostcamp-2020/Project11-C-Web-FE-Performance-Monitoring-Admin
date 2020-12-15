@@ -8,6 +8,7 @@ import Api from '@utils/Api';
 import LeftBar from '@components/Issues/LeftBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Toolbar from '@material-ui/core/Toolbar';
+import NoticeEmpty from '../components/common/NoticeEmpty';
 
 const useStyles = makeStyles(theme => ({
   ProjectsRoot: {
@@ -87,6 +88,19 @@ const Projects = () => {
   useEffect(() => {
     readProjects();
   }, []);
+
+  if (projects.length === 0) {
+    return (
+      <div className={classes.root}>
+        <CssBaseline />
+        <LeftBar />
+        <main className={classes.content}>
+          <Toolbar />
+          <NoticeEmpty type="project" />
+        </main>
+      </div>
+    );
+  }
 
   return (
     <div className={classes.root}>

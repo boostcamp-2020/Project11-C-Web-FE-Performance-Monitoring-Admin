@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ISsueDetailApi from '@utils/IssueDetailApi';
 import styled from 'styled-components';
+import StackItem from './StackItem';
 
 const EventIdContainer = styled.div`
   display: flex;
@@ -11,27 +12,38 @@ const EventIdText = styled.h3`
   margin-left: 1rem;
 `;
 
+const errorParser = (stack: string) => {
+  const errorStack: string[] = stack.split('\n    ');
+  const errorMessage: string = errorStack.shift();
+
+  return { errorStack: errorStack, errorMessage: errorMessage };
+};
+
 const ErrorEventInfo = props => {
   const { errorEvent } = props;
+  const { errorStack, errorMessage } = errorParser(errorEvent.stack);
 
-  // const sourcePosArr = errorEvent.errArea.key;
-  // const soucreArr = errorEvent.errArea.value;
+  const lineNumber: number[] = errorEvent.errArea ? errorEvent.errArea.key : [];
+  const errorCode: string[] = errorEvent.errArea
+    ? errorEvent.errArea.value
+    : [];
 
-  // const sourceCode = soucreArr.map(function (line, idx, array) {
-  //   return <div> {`${sourcePosArr[idx]}: ${line}`}</div>;
-  // });
-
+  const errorRoot: string = errorStack.shift();
   return (
     <div>
       <EventIdContainer>
-        <h3>Event</h3> <EventIdText>{errorEvent._id}</EventIdText>
+        <h3>Event ID</h3> <EventIdText>{errorEvent._id}</EventIdText>
       </EventIdContainer>
-
       <div>
-        <h2>Stack trace</h2>
-        {errorEvent.stack}
+        <h2>{errorMessage}</h2>
+        <StackItem
+          stack={errorStack}
+          code={errorCode}
+          line={lineNumber}
+          errorRoot={errorRoot}
+          tags={errorEvent.tags}
+        />
       </div>
-      <h2>Tags</h2>
     </div>
   );
 };

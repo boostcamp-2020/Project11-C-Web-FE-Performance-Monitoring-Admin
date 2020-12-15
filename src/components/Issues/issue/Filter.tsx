@@ -68,7 +68,7 @@ const Filter = props => {
             withCredentials: true,
           }
         );
-        console.log(response.data);
+
         setProjectName(response.data.title);
       } catch (e) {
         setError(e);

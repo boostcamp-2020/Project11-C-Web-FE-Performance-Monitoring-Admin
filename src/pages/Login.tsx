@@ -1,12 +1,10 @@
 // eslint-disable-next-line no-use-before-define
 import React from 'react';
 import styled from 'styled-components';
-import Header from '@components/utils/Header';
 import LeftContents from '@components/login/LeftContents';
 import RightContents from '@components/login/RightContents';
 
 import { makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Drawer from '@material-ui/core/Drawer';
 
@@ -39,9 +37,6 @@ const Login: React.FC = () => {
   const classes = useStyles();
   return (
     <RootContainer>
-      <AppBar position="fixed" className={classes.appBar}>
-        <Header />
-      </AppBar>
       <Drawer
         className={classes.drawer}
         variant="permanent"

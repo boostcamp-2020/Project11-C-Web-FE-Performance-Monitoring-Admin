@@ -4,7 +4,10 @@ import Button from '@material-ui/core/Button';
 import DoneIcon from '@material-ui/icons/Done';
 import axios from 'axios';
 import IssueItem from './IssueItem';
-import { ResolveDispatchContext, ResolveStateContext } from './ResolveProvider';
+import {
+  ResolveDispatchContext,
+  ResolveStateContext,
+} from '../context/ResolveProvider';
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -62,40 +65,29 @@ const TableColumn = props => {
   const resolveDispatch = useContext(ResolveDispatchContext);
   const resolveState = useContext(ResolveStateContext);
   const { issues } = props;
-  const [disable, setDisable] = useState(true);
-  console.log('밖', resolveState);
-  console.log(issues);
 
   const handleCheckedAll = event => {
-    console.log('all before', resolveState);
-
     const itemCheckBox = document.querySelectorAll('.item_checkbox');
-    itemCheckBox.forEach(
-      checkbox =>
-        ((checkbox as HTMLInputElement).checked = !(checkbox as HTMLInputElement)
-          .checked)
-    );
+    itemCheckBox.forEach(checkbox => {
+      (checkbox as HTMLInputElement).checked = event.target.checked
+        ? true
+        : false;
+    });
 
     if (event.target.checked) {
       issues.forEach(issue => {
-        resolveDispatch({ type: 'add', issueId: issue._id });
+        resolveDispatch({
+          type: 'add',
+          issueId: issue._id,
+          projectId: issue.projectId,
+        });
       });
     } else {
       resolveDispatch({ type: 'removeAll' });
     }
-
-    console.log('all result', resolveState);
-
-    if (disable === true) {
-      setDisable(false);
-    } else {
-      setDisable(true);
-    }
   };
 
   const handleChecked = event => {
-    console.log('before', resolveState);
-
     const checkbox = event.target;
 
     if (checkbox.checked) {
@@ -103,39 +95,23 @@ const TableColumn = props => {
         resolveDispatch({ type: 'add', issueId: checkbox.id });
       }
     } else if (resolveState.includes(checkbox.id)) {
-      console.log('해제');
       resolveDispatch({ type: 'remove', issueId: checkbox.id });
     }
-
-    if (resolveState.length === 0) {
-      setDisable(false);
-    } else {
-      setDisable(true);
-    }
-
-    console.log('after', resolveState);
   };
 
-  const handleResolve = async () => {
-    // 서버로 이슈들의 상태를 전송해야함.
-    const updateIssueResolve = async () => {
-      const response = await axios;
+  const handleResolve = () => {
+    const updateIssuesResolve = async () => {
+      const result = await axios.put(
+        `${process.env.API_URL}/issue/resolved`,
+        { issueIdList: resolveState, resolved: true },
+        {
+          withCredentials: true,
+        }
+      );
     };
 
-    console.log('resolve button test');
-    console.log(resolveState);
+    updateIssuesResolve();
   };
-
-  useEffect(() => {
-    console.log(issues);
-    if (resolveState.length === 0) {
-      console.log('useEffect');
-      setDisable(true);
-    }
-    return () => {
-      console.log('컴포넌트가 화면에서 사라짐');
-    };
-  }, []);
 
   return (
     <div>
@@ -151,13 +127,13 @@ const TableColumn = props => {
             className={classes.resolveButton}
             startIcon={<DoneIcon />}
             id="Resolved_button"
-            disabled={disable}
+            disabled={resolveState.length <= 0}
             onClick={handleResolve}
           >
             Resolve
           </Button>
         </div>
-        <div className={classes.graph}>Graph</div>
+        <div className={classes.graph}>Graph: 14d</div>
         <div className={classes.column}>Events</div>
         <div className={classes.column}>Assigned</div>
       </div>
@@ -172,7 +148,7 @@ const TableColumn = props => {
           assigned={issue.assigned}
           errorEvents={issue.errorEvents}
           stack={issue.stack}
-          date={issue.createdAt}
+          date={issue.updatedAt}
           projectId={issue.projectId}
           onClick={handleChecked}
         />
