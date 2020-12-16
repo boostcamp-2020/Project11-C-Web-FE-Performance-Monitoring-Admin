@@ -40,7 +40,7 @@ const MainContainer = ({ projectId }) => {
             withCredentials: true,
           }
         );
-        console.log(response);
+
         const checkBoxState: boolean[] = new Array(response.data.length + 1);
         checkBoxState.fill(false);
         setIssues(response.data);
