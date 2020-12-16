@@ -5,7 +5,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Toolbar from '@material-ui/core/Toolbar';
 
 import Header from '@components/common/Header';
-import LeftBar from '@components/Issues/LeftBar';
+import LeftBar from '@components/common/LeftBar';
 import AlertListTable from '@components/Alerts/AlertList';
 
 const useStyles = makeStyles(theme => ({

@@ -44,11 +44,11 @@ const App: React.FC = () => {
             exact
           />
         </Switch>
+        <Route path="/alerts" component={Alerts} exact />
+        <Route path="/usage/:platform" component={Usage} exact />
       </PositionProvider>
-      <Route path="/usage/:platform" component={Usage} exact />
       <Route path="/docs" component={DocsPage} exact />
       <Route path="/tutorial" component={Tutorial} exact />
-      <Route path="/alerts" component={Alerts} exact />
     </>
   );
 };
