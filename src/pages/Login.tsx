@@ -1,6 +1,8 @@
 // eslint-disable-next-line no-use-before-define
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { useHistory } from 'react-router-dom';
+import axios from 'axios';
 import LeftContents from '@components/login/LeftContents';
 import RightContents from '@components/login/RightContents';
 
@@ -35,6 +37,31 @@ const useStyles = makeStyles(theme => ({
 
 const Login: React.FC = () => {
   const classes = useStyles();
+  const history = useHistory();
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const checkLogin = async () => {
+      try {
+        setError(null);
+        const response = await axios.get(`${process.env.API_URL}/isLogin`, {
+          withCredentials: true,
+        });
+        const recentProject = response.data.userInfo.recentProject;
+        if (recentProject) {
+          history.push(`/projects/issues/${recentProject}`);
+        } else {
+          history.push(`/projects`);
+        }
+      } catch (error) {
+        setError(error);
+      }
+    };
+    checkLogin();
+  }, []);
+
+  if (error) return <div>에러가 발생했습니다</div>;
+
   return (
     <RootContainer>
       <Drawer
