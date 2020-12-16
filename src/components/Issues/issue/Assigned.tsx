@@ -113,6 +113,7 @@ export default function Assigned(props) {
             withCredentials: true,
           }
         );
+
         setProjectMembers(response.data.members);
         setLoading(false);
       } catch (e) {
@@ -209,8 +210,18 @@ export default function Assigned(props) {
       </div>
     );
 
-  return (
-    <div className="assignedContainer">
+  const getAsignee = (assignee: string) => {
+    if (assignee) {
+      return (
+        <Member
+          name={assignee}
+          target={classes.openUserListButton}
+          onClick={handleClick}
+        />
+      );
+    }
+
+    return (
       <Button
         className={classes.openUserListButton}
         aria-describedby={id}
@@ -227,6 +238,28 @@ export default function Assigned(props) {
           id={props.issueId + 'openIcon'}
         />
       </Button>
+    );
+  };
+
+  return (
+    <div className="assignedContainer">
+      {/* <Button
+        className={classes.openUserListButton}
+        aria-describedby={id}
+        id={props.issueId + 'assigneeButton'}
+        variant="contained"
+        onClick={handleClick}
+      >
+        <PersonAddIcon
+          className={classes.userIcon}
+          id={props.issueId + 'userIcon'}
+        />
+        <ArrowDropDownIcon
+          className={classes.openIcon}
+          id={props.issueId + 'openIcon'}
+        />
+      </Button> */}
+      {getAsignee(props.assignee)}
       <Popover
         id={id}
         open={open}

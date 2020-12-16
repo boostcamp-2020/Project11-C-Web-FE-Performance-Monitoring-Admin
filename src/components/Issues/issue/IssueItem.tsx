@@ -122,7 +122,7 @@ const IssueItem = props => {
             withCredentials: true,
           }
         );
-
+        console.log(respone.data);
         setErrorEvents(respone.data);
       } catch (e) {
         setError(e);
@@ -165,7 +165,11 @@ const IssueItem = props => {
         <Avatar className={classes.countAvatar}>{props.eventNum}</Avatar>
       </div>
       <div className={classes.column}>
-        <Assigned projectId={props.projectId} issueId={props.issueId} />
+        <Assigned
+          projectId={props.projectId}
+          issueId={props.issueId}
+          assignee={props.assignee}
+        />
       </div>
     </div>
   );
