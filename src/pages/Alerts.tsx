@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Toolbar from '@material-ui/core/Toolbar';
+import { PositionDispatchContext } from '../context/PositionProvider';
 
 import Header from '@components/common/Header';
 import LeftBar from '@components/common/LeftBar';
@@ -24,6 +25,15 @@ const useStyles = makeStyles(theme => ({
 
 const MainPage = ({ match }) => {
   const classes = useStyles();
+  const positionDispatch = React.useContext(PositionDispatchContext);
+
+  React.useEffect(() => {
+    console.log(match.params.projectId);
+    positionDispatch({
+      type: 'setPosition',
+      content: 'Alerts',
+    });
+  }, []);
 
   return (
     <div className={classes.root}>

@@ -28,7 +28,7 @@ const DocsPage = () => {
       <PlatformNav platform={platform} setPlatform={setPlatform} />
       <div className={classes.content}>
         <Toolbar />
-        <DocsMain platform={platform} />
+        <DocsMain platform={platform} dsn={null} />
       </div>
     </div>
   );

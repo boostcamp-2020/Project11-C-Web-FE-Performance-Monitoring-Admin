@@ -58,6 +58,7 @@ const useRowStyles = makeStyles({
     fontSize: '1rem',
     color: '#f1f1f1 !important',
     borderColor: 'rgba(255,255,255,0.1)',
+    textAlign: 'center',
   },
   row: {
     '&:hover': {
@@ -75,7 +76,7 @@ function Row(props: { row: any }) {
     <>
       <TableRow
         component={StyledLink}
-        to={`/issues/${row.issue}`}
+        to={`/projects/issues/detail/${row.issue}`}
         className={classes.row}
       >
         <TableCell className={classes.cell}></TableCell>

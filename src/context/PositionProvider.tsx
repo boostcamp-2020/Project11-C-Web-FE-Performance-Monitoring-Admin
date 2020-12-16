@@ -20,6 +20,15 @@ const reducer = (state, action) => {
       ];
 
       return data;
+    case 'setPosition':
+      const newPosition = [
+        action.content,
+        state[1],
+        state[2],
+        state[3],
+        state[4],
+      ];
+      return newPosition;
     default:
       break;
   }
