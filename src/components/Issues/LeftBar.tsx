@@ -19,6 +19,7 @@ import NewReleasesIcon from '@material-ui/icons/NewReleases';
 import HelpIcon from '@material-ui/icons/Help';
 import SyncAltIcon from '@material-ui/icons/SyncAlt';
 import UserContainer from './UserContainer';
+import { Link } from 'react-router-dom';
 
 const drawerWidth = 240;
 
@@ -75,7 +76,12 @@ const LeftBar = () => {
           <UserContainer />
           {['Projects', 'Issues', 'Alerts', 'Stats', 'Settings'].map(
             (text, index) => (
-              <ListItem button key={text}>
+              <ListItem
+                component={Link}
+                to={`/${text.toLowerCase()}`}
+                button
+                key={text}
+              >
                 <ListItemIcon className={classes.listItemIcon}>
                   {topIcons[index]}
                 </ListItemIcon>

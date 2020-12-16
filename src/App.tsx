@@ -7,9 +7,11 @@ import ProjectDetail from '@pages/ProjectDetail';
 import Usage from '@pages/Usage';
 import Issues from '@pages/Issues';
 import IssueDetail from '@pages/IssueDetail';
+import Alerts from '@pages/Alerts';
 import GlobalStyle from './style/globalStyle';
 import Header from '@components/common/Header';
 import AppBar from '@material-ui/core/AppBar';
+
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
@@ -36,6 +38,7 @@ const App: React.FC = () => {
       <Route path="/issues" component={Issues} exact />
       <Route path="/issues/:issueId" component={IssueDetail} />
       <Route path="/usage/:platform" component={Usage} exact />
+      <Route path="/alerts" component={Alerts} exact />
     </>
   );
 };
