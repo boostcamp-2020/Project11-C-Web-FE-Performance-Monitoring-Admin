@@ -47,18 +47,17 @@ const Login: React.FC = () => {
         const response = await axios.get(`${process.env.API_URL}/isLogin`, {
           withCredentials: true,
         });
+
         const recentProject = response.data.userInfo.recentProject;
         if (recentProject) {
           history.push(`/projects/issues/${recentProject}`);
+        } else {
+          history.push(`/projects`);
         }
-      } catch (error) {
-        setError(error);
-      }
+      } catch (error) {}
     };
     checkLogin();
   }, []);
-
-  if (error) return <div>에러가 발생했습니다</div>;
 
   return (
     <RootContainer>
