@@ -30,6 +30,9 @@ const DailyErrorChart = ({ errorData }) => {
             type: 'category',
           },
         },
+        bar: {
+          width: 15,
+        },
         bindto: dailyErrorChartDiv.current,
       });
     }

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import bb, { pie } from 'billboard.js';
+import bb, { pie, donut } from 'billboard.js';
 
 const IssuePieChart = ({ issueData }) => {
   const issuePieChartDiv = useRef(null);
@@ -7,17 +7,19 @@ const IssuePieChart = ({ issueData }) => {
   useEffect(() => {
     if (issueData) {
       const columns = [];
-      const types = {};
 
       issueData.forEach(item => {
         columns.push(item.value);
-        types[item.name] = pie();
       });
 
       bb.generate({
         data: {
           columns,
-          types,
+          type: donut(),
+        },
+        donut: {
+          width: 15,
+          padAngle: 0.05,
         },
         bindto: issuePieChartDiv.current,
       });
