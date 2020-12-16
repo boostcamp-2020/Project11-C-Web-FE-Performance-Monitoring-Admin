@@ -9,8 +9,9 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import AlertApi from '@utils/AlertApi';
-
+import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
 import styled from 'styled-components';
+import { Avatar, Chip } from '@material-ui/core';
 
 const TitleContainer = styled.div`
   font-size: 1.2rem;
@@ -38,6 +39,14 @@ const StyledLink = styled(Link)`
     text-decoration: none;
   }
 `;
+
+const RectangleChip = styled(Link)`
+  border-radius: 0;
+  color: #f1f1f1;
+  font-size: 1rem;
+  width: 150px;
+`;
+
 const useRowStyles = makeStyles({
   root: {
     backgroundColor: 'rgba(0,0,0,0.1)',
@@ -75,23 +84,59 @@ function Row(props: { row: any }) {
     <>
       <TableRow
         component={StyledLink}
-        to={`/issues/${row.issue}`}
+        to={`/projects/issues/detail/${row.issue}`}
         className={classes.row}
+        style={{
+          backgroundColor:
+            row.alertType.type > 0
+              ? 'rgba(77,179,228,0.3)'
+              : 'rgba(255,89,89,0.3) ',
+        }}
       >
-        <TableCell className={classes.cell}></TableCell>
-        <TableCell component="th" scope="row" className={classes.cell}>
-          {row.alertType.name}
+        <TableCell align="center" className={classes.cell}></TableCell>
+        <TableCell
+          align="center"
+          component="th"
+          scope="row"
+          className={classes.cell}
+        >
+          {row.alertType.type > 0 ? (
+            <Chip
+              component={RectangleChip}
+              label={row.alertType.name}
+              icon={
+                <InfoOutlinedIcon color="primary" style={{ color: 'white' }} />
+              }
+              style={{ backgroundColor: '#2b70be' }}
+            />
+          ) : (
+            <Chip
+              component={RectangleChip}
+              label={row.alertType.name}
+              icon={
+                <InfoOutlinedIcon color="primary" style={{ color: 'white' }} />
+              }
+              style={{ backgroundColor: '#ec5151' }}
+            />
+          )}
         </TableCell>
         <TableCell align="center" className={classes.cell}>
           {row.alertType.title}
         </TableCell>
         <TableCell align="center" className={classes.cell}>
-          <StyledLink to={`/projects/${row.project._id}`}>
+          <StyledLink to={`/projects/issues/${row.project._id}`}>
             {row.project.title}
           </StyledLink>
         </TableCell>
         <TableCell align="center" className={classes.cell}>
-          {row.from ? row.from : 'SYSTEM'}
+          {!row.from ? (
+            'SYSTEM'
+          ) : (
+            <Chip
+              avatar={<Avatar src={row.from.imageURL} />}
+              label={row.from.name}
+            />
+          )}
         </TableCell>
         <TableCell align="center" className={classes.cell}>
           {new Date(row.createdAt).toLocaleString()}
@@ -122,7 +167,7 @@ const AlertListTable = () => {
         <Table aria-label="collapsible table">
           <TableHead className={classes.header}>
             <TableRow>
-              <TableCell className={classes.cell} />
+              <TableCell align="center" className={classes.cell} />
               <TableCell align="center" className={classes.cell}>
                 TYPE
               </TableCell>
