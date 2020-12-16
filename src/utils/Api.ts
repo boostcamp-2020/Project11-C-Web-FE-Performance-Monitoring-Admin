@@ -74,6 +74,16 @@ const getChartTag = async (projectId: string): Promise<any> => {
   }
 };
 
+const getUserByEamil = async (email: string): Promise<any> => {
+  try {
+    return await axios.get(`${process.env.API_URL}/user/${email}`, {
+      withCredentials: true,
+    });
+  } catch (err) {
+    return err;
+  }
+};
+
 export default {
   getUser,
   getProject,
@@ -82,4 +92,5 @@ export default {
   getDailyError,
   getChartIssue,
   getChartTag,
+  getUserByEamil,
 };
