@@ -20,6 +20,7 @@ import NewReleasesIcon from '@material-ui/icons/NewReleases';
 import HelpIcon from '@material-ui/icons/Help';
 import SyncAltIcon from '@material-ui/icons/SyncAlt';
 import UserContainer from './UserContainer';
+import { Link } from 'react-router-dom';
 
 import { PositionStateContext } from '../../context/PositionProvider';
 

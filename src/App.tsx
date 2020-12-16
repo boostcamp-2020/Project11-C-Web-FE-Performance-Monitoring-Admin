@@ -7,9 +7,11 @@ import ProjectDetail from '@pages/ProjectDetail';
 import Usage from '@pages/Usage';
 import Issues from '@pages/Issues';
 import IssueDetail from '@pages/IssueDetail';
+import Alerts from '@pages/Alerts';
 import GlobalStyle from './style/globalStyle';
 import Header from '@components/common/Header';
 import AppBar from '@material-ui/core/AppBar';
+
 import { makeStyles } from '@material-ui/core/styles';
 import DocsPage from '@pages/DocsPage';
 import Tutorial from '@pages/Tutorial';
@@ -46,6 +48,7 @@ const App: React.FC = () => {
       <Route path="/usage/:platform" component={Usage} exact />
       <Route path="/docs" component={DocsPage} exact />
       <Route path="/tutorial" component={Tutorial} exact />
+      <Route path="/alerts" component={Alerts} exact />
     </>
   );
 };
