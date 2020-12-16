@@ -41,7 +41,7 @@ const Acent = require("@acent/node");
 import Acent from '@acent/node';
 
 Acent.init({
-    dsn: "Your project dsn",
+    dsn: "${dsn ? dsn : 'Your project dsn'}",
   });
 Acent.startErrorCapturing();
 // 만약 프로미스 에러까지 잡고 싶다면, catchUnhandledRejection을 실행하십시오.
@@ -68,7 +68,7 @@ import Acent from @acent/node;
 const app = express();
 
 Acent.init({
-    dsn: "Your project dsn",
+    dsn: "${dsn ? dsn : 'Your project dsn'}",
 });
 
 // 만약 프로미스 에러까지 잡고 싶다면, catchUnhandledRejection을 실행하십시오.
