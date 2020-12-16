@@ -49,7 +49,6 @@ const App: React.FC = () => {
         <Route path="/alerts" component={Alerts} exact />
       </PositionProvider>
       <Route path="/docs" component={DocsPage} exact />
-      <Route path="/tutorial" component={Tutorial} exact />
     </>
   );
 };
