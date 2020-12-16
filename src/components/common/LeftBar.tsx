@@ -75,9 +75,6 @@ const LeftBar = () => {
     target.setAttribute('style', 'border-right: none;');
   }, []);
 
-  const projectsClicked = () => {};
-  const issuesClicked = () => {};
-
   const contentClicked = event => {
     // setPlatform('test');
     const target = event.target.closest(`.${classes.others}`);
@@ -90,6 +87,14 @@ const LeftBar = () => {
         case 'Issues':
           if (content[0] !== 'Issues' && content[1] !== 'none')
             history.push(`/projects/issues/${content[1]}`);
+          break;
+        case 'Alerts':
+          if (content[0] !== 'Alerts' && content[1] !== 'none')
+            history.push(`/alerts`);
+          break;
+        case 'Stats':
+          if (content[0] !== 'Stats' && content[1] !== 'none')
+            history.push(`/projects/${content[1]}/stats`);
           break;
         default:
           break;

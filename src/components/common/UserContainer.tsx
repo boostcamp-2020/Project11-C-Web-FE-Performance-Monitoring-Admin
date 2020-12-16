@@ -13,11 +13,11 @@ const useStyles = makeStyles(theme => ({
   },
   email: {
     color: 'lightgray',
+    fontSize: '0.7rem',
   },
 }));
 
 const UserContainer = ({ name, email, url }) => {
-  console.log(name, email);
   const classes = useStyles();
   return (
     <ListItem>
