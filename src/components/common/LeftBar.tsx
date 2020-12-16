@@ -28,16 +28,6 @@ import Api from '@utils/Api';
 
 const drawerWidth = 240;
 
-const topIcons = [
-  <FolderSharedIcon />,
-  <ErrorOutlineIcon />,
-  <Badge badgeContent={1} color="secondary">
-    <NotificationsActiveIcon />{' '}
-  </Badge>,
-  <AssessmentIcon />,
-  <SettingsApplicationsIcon />,
-];
-
 const bottomIcons = [<NewReleasesIcon />, <HelpIcon />, <SyncAltIcon />];
 
 const useStyles = makeStyles(theme => ({
@@ -66,6 +56,9 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: 'rgba(200,200,200,0.3)',
   },
   others: {},
+  alertIcon: {
+    color: '#e22d2d',
+  },
 }));
 
 const LeftBar = () => {
@@ -78,6 +71,14 @@ const LeftBar = () => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(false);
 
+  const topIcons = [
+    <FolderSharedIcon />,
+    <NotificationsActiveIcon className={classes.alertIcon} />,
+    <ErrorOutlineIcon />,
+    <AssessmentIcon />,
+    <SettingsApplicationsIcon />,
+  ];
+
   const readUserInfo = async () => {
     setLoading(true);
     const { data } = await Api.getUser();
@@ -86,6 +87,7 @@ const LeftBar = () => {
 
     positionDispatch({
       type: 'setUser',
+      projectId: data.recentProject,
       userName: data.name,
       userEmail: data.email,
       imgUrl: data.imageURL,
@@ -95,6 +97,9 @@ const LeftBar = () => {
     readUserInfo();
     const target = document.querySelector('.MuiDrawer-paperAnchorDockedLeft');
     target.setAttribute('style', 'border-right: none;');
+    return () => {
+      readUserInfo();
+    };
   }, []);
 
   const contentClicked = event => {
@@ -143,7 +148,7 @@ const LeftBar = () => {
             email={content[3]}
             url={content[4]}
           />
-          {['Projects', 'Issues', 'Alerts', 'Stats', 'Settings'].map(
+          {['Projects', 'Alerts', 'Issues', 'Stats', 'Settings'].map(
             (text, index) => (
               <ListItem
                 button

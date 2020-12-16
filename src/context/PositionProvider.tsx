@@ -32,7 +32,7 @@ const reducer = (state, action) => {
     case 'setUser':
       const newData = [
         state[0],
-        state[1],
+        action.projectId,
         action.userName,
         action.userEmail,
         action.imgUrl,
