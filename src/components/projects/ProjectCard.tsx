@@ -74,7 +74,7 @@ const ProjectCard = ({ project }) => {
   const history = useHistory();
 
   const clickProjectCard = () => {
-    history.push(`/projects/${project._id}`);
+    history.push(`/projects/issues/${project._id}`);
   };
 
   return (

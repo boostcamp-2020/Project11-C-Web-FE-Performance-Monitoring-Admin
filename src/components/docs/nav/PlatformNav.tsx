@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -7,31 +7,12 @@ import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import Badge from '@material-ui/core/Badge';
-
-import FolderSharedIcon from '@material-ui/icons/FolderShared';
-import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline';
-import NotificationsActiveIcon from '@material-ui/icons/NotificationsActive';
-import AssessmentIcon from '@material-ui/icons/Assessment';
-import SettingsApplicationsIcon from '@material-ui/icons/SettingsApplications';
 
 import NewReleasesIcon from '@material-ui/icons/NewReleases';
 import HelpIcon from '@material-ui/icons/Help';
 import SyncAltIcon from '@material-ui/icons/SyncAlt';
-import UserContainer from './UserContainer';
-import { Link } from 'react-router-dom';
 
 const drawerWidth = 240;
-
-const topIcons = [
-  <FolderSharedIcon />,
-  <ErrorOutlineIcon />,
-  <Badge badgeContent={1} color="secondary">
-    <NotificationsActiveIcon />{' '}
-  </Badge>,
-  <AssessmentIcon />,
-  <SettingsApplicationsIcon />,
-];
 
 const bottomIcons = [<NewReleasesIcon />, <HelpIcon />, <SyncAltIcon />];
 
@@ -42,6 +23,7 @@ const useStyles = makeStyles(theme => ({
   drawer: {
     width: drawerWidth,
     flexShrink: 0,
+    borderRight: '0',
   },
   drawerPaper: {
     width: drawerWidth,
@@ -57,10 +39,31 @@ const useStyles = makeStyles(theme => ({
   listItemText: {
     color: 'white',
   },
+  platformIcon: {
+    marginLeft: '-8px',
+  },
+  selectedPlatform: {
+    backgroundColor: 'rgba(200,200,200,0.3)',
+  },
+  others: {},
 }));
 
-const LeftBar = () => {
+const PlatformNav = ({ platform, setPlatform }) => {
   const classes = useStyles();
+
+  const platformClicked = event => {
+    // setPlatform('test');
+    const target = event.target.closest(`.${classes.others}`);
+
+    if (target) {
+      setPlatform(target.title);
+    }
+  };
+
+  useEffect(() => {
+    const target = document.querySelector('.MuiDrawer-paperAnchorDockedLeft');
+    target.setAttribute('style', 'border-right: none;');
+  }, []);
 
   return (
     <Drawer
@@ -71,20 +74,27 @@ const LeftBar = () => {
       }}
     >
       <Toolbar />
-      <div className={classes.drawerContainer}>
+      <div className={classes.drawerContainer} onClick={platformClicked}>
         <List>
-          <UserContainer />
-          {['Projects', 'Issues', 'Alerts', 'Stats', 'Settings'].map(
+          {['Node', 'Express', 'JavaScript', 'React', 'Vue'].map(
             (text, index) => (
               <ListItem
-                component={Link}
-                to={`/${text.toLowerCase()}`}
                 button
                 key={text}
+                className={
+                  text === platform ? classes.selectedPlatform : classes.others
+                }
+                title={text}
               >
                 <ListItemIcon className={classes.listItemIcon}>
-                  {topIcons[index]}
+                  <img
+                    className={classes.platformIcon}
+                    src={`../../../public/png/${text}.png`}
+                    width="40"
+                    height="40"
+                  />
                 </ListItemIcon>
+
                 <ListItemText primary={text} className={classes.listItemText} />
               </ListItem>
             )
@@ -106,4 +116,4 @@ const LeftBar = () => {
   );
 };
 
-export default LeftBar;
+export default PlatformNav;

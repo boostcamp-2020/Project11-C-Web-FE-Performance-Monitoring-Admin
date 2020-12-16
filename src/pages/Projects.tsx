@@ -5,10 +5,14 @@ import styled from 'styled-components';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import ProjectCard from '@components/projects/ProjectCard';
 import Api from '@utils/Api';
-import LeftBar from '@components/Issues/LeftBar';
+import LeftBar from '@components/common/LeftBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Toolbar from '@material-ui/core/Toolbar';
 import NoticeEmpty from '../components/common/NoticeEmpty';
+import Backdrop from '@material-ui/core/Backdrop';
+import CircularProgress from '@material-ui/core/CircularProgress';
+
+import { PositionDispatchContext } from '../context/PositionProvider';
 
 const useStyles = makeStyles(theme => ({
   ProjectsRoot: {
@@ -30,9 +34,11 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1,
     padding: theme.spacing(3),
   },
+  backdrop: {
+    zIndex: theme.zIndex.drawer + 1,
+    color: '#fff',
+  },
 }));
-
-const ProjectsRoot = styled.div``;
 
 const ProjectsHeader = styled.div`
   display: flex;
@@ -74,11 +80,24 @@ const Projects = () => {
   const classes = useStyles();
   const history = useHistory();
 
+  const positionDispatch = React.useContext(PositionDispatchContext);
+
   const [projects, setProjects] = useState([]);
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const readProjects = async () => {
+    setLoading(true);
     const { data } = await Api.getProjects();
+    setLoading(false);
     setProjects([...data]);
+  };
+
+  const readUserInfo = async () => {
+    setLoading(true);
+    const { data } = await Api.getUser();
+    setLoading(false);
+    setUser(data);
   };
 
   const clickProjectsHeaderButton = () => {
@@ -87,8 +106,18 @@ const Projects = () => {
 
   useEffect(() => {
     readProjects();
+    readUserInfo();
   }, []);
 
+  if (loading) {
+    return (
+      <div>
+        <Backdrop className={classes.backdrop} open>
+          <CircularProgress color="inherit" />
+        </Backdrop>
+      </div>
+    );
+  }
   if (projects.length === 0) {
     return (
       <div className={classes.root}>
@@ -101,6 +130,15 @@ const Projects = () => {
       </div>
     );
   }
+
+  positionDispatch({
+    type: 'set',
+    content: 'Projects',
+    projectId: user.recentProject,
+    userName: user.name,
+    userEmail: user.email,
+    imgUrl: user.imageURL,
+  });
 
   return (
     <div className={classes.root}>

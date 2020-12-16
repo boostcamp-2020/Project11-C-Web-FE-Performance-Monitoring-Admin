@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Toolbar from '@material-ui/core/Toolbar';
-import LeftBar from '@components/Issues/LeftBar';
+import LeftBar from '@components/common/LeftBar';
 import MainContainer from '@components/Issues/MainContainer';
+import { PositionDispatchContext } from '../context/PositionProvider';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -21,6 +22,16 @@ const useStyles = makeStyles(theme => ({
 
 const MainPage = ({ match }) => {
   const classes = useStyles();
+
+  const positionDispatch = React.useContext(PositionDispatchContext);
+
+  React.useEffect(() => {
+    positionDispatch({
+      type: 'update',
+      content: 'Issues',
+      projectId: match.params.projectId,
+    });
+  }, []);
 
   return (
     <div className={classes.root}>

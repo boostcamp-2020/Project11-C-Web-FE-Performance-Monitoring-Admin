@@ -16,7 +16,8 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const UserContainer = () => {
+const UserContainer = ({ name, email, url }) => {
+  console.log(name, email);
   const classes = useStyles();
   return (
     <ListItem>
@@ -26,8 +27,8 @@ const UserContainer = () => {
         </Avatar>
       </ListItemAvatar>
       <div>
-        <p className={classes.name}>User name</p>
-        <p className={classes.email}>User email</p>
+        <p className={classes.name}>{name}</p>
+        <p className={classes.email}>{email}</p>
       </div>
     </ListItem>
   );

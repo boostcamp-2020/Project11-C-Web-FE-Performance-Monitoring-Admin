@@ -106,7 +106,7 @@ const IssueItem = props => {
   const [error, setError] = useState(null);
 
   function onTitleCiick() {
-    history.push(`/issues/${props.issueId}`);
+    history.push(`/projects/issues/detail/${props.issueId}`);
   }
 
   useEffect(() => {

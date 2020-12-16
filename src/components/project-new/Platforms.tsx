@@ -7,7 +7,7 @@ const PlatformsWrapper = styled.div`
   grid-template-columns: repeat(6, 1fr);
   column-gap: 1rem;
   row-gap: 1rem;
-  padding: 0 1rem 1rem 1rem;
+  padding: 1rem 0;
 `;
 
 const Platforms = ({ selectedPlatform, setSelectedPlatform }) => {
