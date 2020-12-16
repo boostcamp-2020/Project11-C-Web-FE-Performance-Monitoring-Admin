@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Toolbar from '@material-ui/core/Toolbar';
-import LeftBar from '@components/Issues/LeftBar';
+import LeftBar from '@components/common/LeftBar';
 import DailyErrorChart from '@components/stats/DailyErrorChart';
 import IssuePieChart from '@components/stats/IssuePieChart';
 import ResolveGaugeChart from '@components/stats/ResolveGaugeChart';
