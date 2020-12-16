@@ -41,4 +41,45 @@ const postProject = async (data: CreateProject): Promise<any> => {
   }
 };
 
-export default { getUser, getProject, getProjects, postProject };
+const getDailyError = async (projectId: string, day: string): Promise<any> => {
+  try {
+    return await axios.get(
+      `${process.env.API_URL}/project/${projectId}/chart/dailyError?day=${day}`,
+      { withCredentials: true }
+    );
+  } catch (err) {
+    return err;
+  }
+};
+
+const getChartIssue = async (projectId: string): Promise<any> => {
+  try {
+    return await axios.get(
+      `${process.env.API_URL}/project/${projectId}/chart/issue`,
+      { withCredentials: true }
+    );
+  } catch (err) {
+    return err;
+  }
+};
+
+const getChartTag = async (projectId: string): Promise<any> => {
+  try {
+    return await axios.get(
+      `${process.env.API_URL}/project/${projectId}/chart/tag`,
+      { withCredentials: true }
+    );
+  } catch (err) {
+    return err;
+  }
+};
+
+export default {
+  getUser,
+  getProject,
+  getProjects,
+  postProject,
+  getDailyError,
+  getChartIssue,
+  getChartTag,
+};

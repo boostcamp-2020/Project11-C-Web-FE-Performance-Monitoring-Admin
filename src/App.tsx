@@ -3,11 +3,11 @@ import { Route, Switch } from 'react-router-dom';
 import Login from '@pages/Login';
 import Projects from '@pages/Projects';
 import ProjectNew from '@pages/ProjectNew';
-import ProjectDetail from '@pages/ProjectDetail';
 import Usage from '@pages/Usage';
 import Issues from '@pages/Issues';
 import IssueDetail from '@pages/IssueDetail';
 import Alerts from '@pages/Alerts';
+import Stats from '@pages/Stats';
 import GlobalStyle from './style/globalStyle';
 import Header from '@components/common/Header';
 import AppBar from '@material-ui/core/AppBar';
@@ -43,6 +43,7 @@ const App: React.FC = () => {
             component={IssueDetail}
             exact
           />
+          <Route path="/projects/:projectId/stats" component={Stats} exact />
         </Switch>
         <Route path="/alerts" component={Alerts} exact />
         <Route path="/usage/:platform" component={Usage} exact />

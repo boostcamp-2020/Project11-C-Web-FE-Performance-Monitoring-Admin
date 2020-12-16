@@ -15,6 +15,13 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import { PositionDispatchContext } from '../context/PositionProvider';
 
 const useStyles = makeStyles(theme => ({
+  root: {
+    display: 'flex',
+  },
+  content: {
+    flexGrow: 1,
+    padding: theme.spacing(3),
+  },
   ProjectsRoot: {
     flexGrow: 1,
     padding: theme.spacing(3),
@@ -22,17 +29,6 @@ const useStyles = makeStyles(theme => ({
     paddingLeft: '0',
     marginTop: '-0.5rem',
     color: 'white',
-  },
-  root: {
-    display: 'flex',
-  },
-  appBar: {
-    zIndex: theme.zIndex.drawer + 1,
-    backgroundColor: 'rgba(0,0,0,0.3)',
-  },
-  content: {
-    flexGrow: 1,
-    padding: theme.spacing(3),
   },
   backdrop: {
     zIndex: theme.zIndex.drawer + 1,
@@ -143,7 +139,6 @@ const Projects = () => {
   return (
     <div className={classes.root}>
       <CssBaseline />
-
       <LeftBar />
       <main className={classes.content}>
         <Toolbar />
