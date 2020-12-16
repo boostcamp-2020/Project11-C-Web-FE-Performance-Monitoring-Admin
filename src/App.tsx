@@ -36,6 +36,7 @@ const App: React.FC = () => {
       <PositionProvider>
         <Route path="/projects" component={Projects} exact />
         <Switch>
+          <Route path="/usage/:platform" component={Usage} exact />
           <Route path="/projects/new" component={ProjectNew} exact />
           <Route path="/projects/issues/:projectId" component={Issues} exact />
           <Route
@@ -46,7 +47,6 @@ const App: React.FC = () => {
           <Route path="/projects/:projectId/stats" component={Stats} exact />
         </Switch>
         <Route path="/alerts" component={Alerts} exact />
-        <Route path="/usage/:platform" component={Usage} exact />
       </PositionProvider>
       <Route path="/docs" component={DocsPage} exact />
       <Route path="/tutorial" component={Tutorial} exact />
