@@ -6,8 +6,6 @@ const MIN_USERNAME_LENGTH = 4;
 const MIN_PASSWORD_LENGTH = 8;
 
 const Container = styled.div`
-  flex: 1.1;
-
   margin-bottom: 2rem;
   margin-left: 6rem;
   margin-right: 5.6rem;

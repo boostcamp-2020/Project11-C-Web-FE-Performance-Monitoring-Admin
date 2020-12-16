@@ -56,6 +56,8 @@ const ProjectCardBodyErrorCount = styled.div`
 
 const ProjectCardBodyChart = styled.div`
   height: 10rem;
+  display: flex;
+  justify-content: center;
 `;
 
 const ProjectCardFooter = styled.div`
@@ -67,6 +69,12 @@ const ProjectCardFooter = styled.div`
 const ProjectCardFooterImage = styled.img`
   width: 2rem;
   height: 2rem;
+  object-fit: contain;
+`;
+
+const ProjectCardBodyImage = styled.img`
+  width: 10rem;
+  height: 10rem;
   object-fit: contain;
 `;
 
@@ -82,25 +90,31 @@ const ProjectCard = ({ project }) => {
       <ProjectCardHeader>
         <ProjectCardHeaderTitleWrapper isPlatform={!!project.platform}>
           <ProjectCardHeaderTitle>{project.title}</ProjectCardHeaderTitle>
-          {project.platform && (
+          {/* {project.platform && (
             <ProjectCardFooterImage
               src={`../../../public/png/${project.platform}.png`}
             />
-          )}
+          )} */}
         </ProjectCardHeaderTitleWrapper>
         <ProjectCardHeaderDescription>
           {project.description}
         </ProjectCardHeaderDescription>
       </ProjectCardHeader>
       <ProjectCardBody>
-        <ProjectCardBodyErrorCount>
+        {/* <ProjectCardBodyErrorCount>
           Unresolved errors: 0
-        </ProjectCardBodyErrorCount>
-        <ProjectCardBodyChart>Chart</ProjectCardBodyChart>
+        </ProjectCardBodyErrorCount> */}
+        <ProjectCardBodyChart>
+          {project.platform && (
+            <ProjectCardBodyImage
+              src={`../../../public/png/${project.platform}.png`}
+            />
+          )}
+        </ProjectCardBodyChart>
       </ProjectCardBody>
       <ProjectCardFooter>
         Created {moment(project.createdAt).format('YYYY/MM/DD')} by{' '}
-        {project.owner.name}
+        {project.owner?.name}
       </ProjectCardFooter>
     </ProjectCardRoot>
   );

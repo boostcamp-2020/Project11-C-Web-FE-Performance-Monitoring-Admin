@@ -74,7 +74,7 @@ const changeAssinged = async (
 
 export default function Assigned(props) {
   const classes = useStyles();
-  const [modalOpen, setModalOpen] = React.useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
 
   const handleModalOpen = () => {
     setModalOpen(true);
@@ -84,7 +84,7 @@ export default function Assigned(props) {
     setModalOpen(false);
   };
 
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
 
   const handleClick = event => {
     setAnchorEl(event.currentTarget);
@@ -108,12 +108,11 @@ export default function Assigned(props) {
         setLoading(true);
 
         const response: any = await axios.get(
-          `${process.env.API_URL}/project/${props.projectId}`,
+          `${process.env.API_URL}/project/v2/${props.projectId}`,
           {
             withCredentials: true,
           }
         );
-
         setProjectMembers(response.data.members);
         setLoading(false);
       } catch (e) {
@@ -250,7 +249,7 @@ export default function Assigned(props) {
         aria-labelledby="simple-modal-title"
         aria-describedby="simple-modal-description"
       >
-        <InviteModal />
+        <InviteModal setModalOpen={setModalOpen} projectId={props.projectId} />
       </Modal>
     </div>
   );
