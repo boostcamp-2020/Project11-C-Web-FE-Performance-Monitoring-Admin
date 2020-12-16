@@ -9,6 +9,8 @@ import IssuePieChart from '@components/stats/IssuePieChart';
 import ResolveGaugeChart from '@components/stats/ResolveGaugeChart';
 import TagBarChart from '@components/stats/TagBarChart';
 import Api from '@utils/Api';
+import { PositionDispatchContext } from '../context/PositionProvider';
+import NoticeEmpty from '@components/common/NoticeEmpty';
 
 interface tagDataType {
   key: string;
@@ -24,12 +26,23 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(3),
   },
   StatsRoot: {
+    display: 'flex',
+    flexDirection: 'row',
     flexGrow: 1,
-    padding: theme.spacing(3),
-    paddingTop: '0',
-    paddingLeft: '0',
-    marginTop: '-0.5rem',
-    color: 'white',
+    padding: '1rem 0 1.5rem',
+  },
+  tagChartContainer: {
+    flex: '1',
+    padding: '1rem 1.5rem',
+    backgroundColor: 'rgba(200,200,200,0.2)',
+    font: 'sans-serif',
+  },
+  barChartWrapper: {
+    backgroundColor: 'rgba(200,200,200,0.2)',
+    padding: '1rem 1.5rem',
+    borderBottomWidth: '2px',
+    borderBottomStyle: 'solid',
+    borderBottomColor: 'rgba(200,200,200,0.3)',
   },
 }));
 
@@ -37,36 +50,45 @@ const StatsHeaderTitle = styled.span`
   font-size: 2rem;
   font-weight: 600;
 `;
-
+// width: calcvw - 340px);
 const StatsBodyWrapper = styled.div`
-  width: calc(100vw - 340px);
+  display: flex;
+  flex-direction: column;
+  flex: 0.7;
   margin: 0;
-  color: rgba(0, 0, 0, 1);
-  & > div {
-    margin: 2rem 0;
-  }
+  margin-right: 1rem;
+  padding: 0 1rem;
+  background-color: rgba(0, 0, 0, 0);
 `;
 
 const PieChartsWrapper = styled.div`
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  flex: 0.5;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  height: fit-content;
 `;
 
 const PieChartWrapper = styled.div`
+  flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
+  width: fit-content;
+  align-self: center;
+  text-align: center;
+  padding: 1rem;
+  width: 100%;
 `;
 
 const TagBarChartWrapper = styled.div``;
 
 const ChartTitle = styled.div`
-  margin: 1rem 0;
+  margin: 0;
   text-align: center;
   font-size: 1.5rem;
   font-weight: 600;
-  color: rgba(255, 255, 255, 1);
+  color: white;
 `;
 
 const TagTitle = styled.div`
@@ -81,9 +103,10 @@ const Stats = ({
   },
 }) => {
   const classes = useStyles();
+  const positionDispatch = React.useContext(PositionDispatchContext);
 
-  const days = '20';
-  const [errorData, setErrorData] = useState();
+  const days = '14';
+  const [errorData, setErrorData] = useState({ dates: [], errors: [] });
   const [allIssueData, setAllIssueData] = useState();
   const [unresolvedIssueData, setUnresolvedIssueData] = useState();
   const [resolvedRateData, setResolvedRateData] = useState();
@@ -113,7 +136,32 @@ const Stats = ({
 
   useEffect(() => {
     readDatas();
+
+    positionDispatch({
+      type: 'update',
+      content: 'Stats',
+      projectId: projectId,
+    });
   }, []);
+
+  if (errorData) {
+    console.log(errorData);
+    if (errorData.errors.length < 1)
+      return (
+        <div className={classes.root}>
+          <CssBaseline />
+          <LeftBar />
+          <main className={classes.content}>
+            <Toolbar />
+            <NoticeEmpty type={'stats'} />
+          </main>
+        </div>
+      );
+  }
+
+  // if (errorData.errors.length < 1) {
+  //   return <div>없다</div>;
+  // }
 
   return (
     <div className={classes.root}>
@@ -122,38 +170,38 @@ const Stats = ({
       <main className={classes.content}>
         <Toolbar />
         <div className={classes.StatsRoot}>
-          <StatsHeaderTitle>Stats</StatsHeaderTitle>
           <StatsBodyWrapper>
-            <ChartTitle>Daily Errors</ChartTitle>
-            <DailyErrorChart errorData={errorData} />
-            <PieChartsWrapper>
-              <PieChartWrapper>
-                <ChartTitle>All Issues</ChartTitle>
-                <IssuePieChart issueData={allIssueData} />
-              </PieChartWrapper>
-              <PieChartWrapper>
-                <ChartTitle>Unresolved Issues</ChartTitle>
-                <IssuePieChart issueData={unresolvedIssueData} />
-              </PieChartWrapper>
-              <PieChartWrapper>
-                <ChartTitle>Resolved Issue Rate</ChartTitle>
-                <ResolveGaugeChart
-                  rateData={resolvedRateData}
-                  name="resolved"
-                />
-              </PieChartWrapper>
-            </PieChartsWrapper>
-            <TagBarChartWrapper>
-              <ChartTitle>Tags</ChartTitle>
-              {tagDatas &&
-                tagDatas.map((data: tagDataType) => (
-                  <div key={data.key}>
-                    <TagTitle>{data.key}</TagTitle>
-                    <TagBarChart tagName={data.key} tagData={data.value} />
-                  </div>
-                ))}
-            </TagBarChartWrapper>
+            <div className={classes.barChartWrapper}>
+              <ChartTitle>Daily Errors</ChartTitle>
+              <DailyErrorChart errorData={errorData} />
+            </div>
+            <div className={classes.tagChartContainer}>
+              <TagBarChartWrapper>
+                <ChartTitle>Tags</ChartTitle>
+                {tagDatas &&
+                  tagDatas.map((data: tagDataType) => (
+                    <div key={data.key}>
+                      <TagTitle>{data.key}</TagTitle>
+                      <TagBarChart tagName={data.key} tagData={data.value} />
+                    </div>
+                  ))}
+              </TagBarChartWrapper>
+            </div>
           </StatsBodyWrapper>
+          <PieChartsWrapper>
+            <PieChartWrapper>
+              <ChartTitle>All Issues</ChartTitle>
+              <IssuePieChart issueData={allIssueData} />
+            </PieChartWrapper>
+            <PieChartWrapper>
+              <ChartTitle>Unresolved Issues</ChartTitle>
+              <IssuePieChart issueData={unresolvedIssueData} />
+            </PieChartWrapper>
+            <PieChartWrapper>
+              <ChartTitle>Resolved Issue Rate</ChartTitle>
+              <ResolveGaugeChart rateData={resolvedRateData} name="resolved" />
+            </PieChartWrapper>
+          </PieChartsWrapper>
         </div>
       </main>
     </div>
