@@ -149,7 +149,6 @@ const DetailHeader = props => {
 
     updateIssuesResolve();
   };
-
   return (
     <div className={classes.DetailHeaderContainer}>
       <div className={classes.IssueContainer}>
@@ -201,7 +200,11 @@ const DetailHeader = props => {
             </div>
 
             <div className={classes.utilsValueDiv}>
-              <Assigned members={props.members} issueId={props.issueId} />
+              <Assigned
+                members={props.members}
+                issueId={props.issueId}
+                assignee={props.assignee}
+              />
             </div>
           </div>
         </div>

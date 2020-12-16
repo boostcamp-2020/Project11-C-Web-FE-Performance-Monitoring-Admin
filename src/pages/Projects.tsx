@@ -103,10 +103,6 @@ const Projects = () => {
   useEffect(() => {
     readProjects();
     readUserInfo();
-    positionDispatch({
-      type: 'setPosition',
-      content: 'Projects',
-    });
   }, []);
 
   if (loading) {
@@ -139,6 +135,11 @@ const Projects = () => {
   //   userEmail: user.email,
   //   imgUrl: user.imageURL,
   // });
+
+  positionDispatch({
+    type: 'setPosition',
+    content: 'Projects',
+  });
 
   return (
     <div className={classes.root}>

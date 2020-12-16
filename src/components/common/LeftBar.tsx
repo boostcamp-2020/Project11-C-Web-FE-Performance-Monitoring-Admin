@@ -20,7 +20,11 @@ import NewReleasesIcon from '@material-ui/icons/NewReleases';
 import HelpIcon from '@material-ui/icons/Help';
 import SyncAltIcon from '@material-ui/icons/SyncAlt';
 import UserContainer from './UserContainer';
-import { PositionStateContext } from '../../context/PositionProvider';
+import {
+  PositionStateContext,
+  PositionDispatchContext,
+} from '../../context/PositionProvider';
+import Api from '@utils/Api';
 
 const drawerWidth = 240;
 
@@ -67,16 +71,33 @@ const useStyles = makeStyles(theme => ({
 const LeftBar = () => {
   const classes = useStyles();
   const content = React.useContext(PositionStateContext);
+  const positionDispatch = React.useContext(PositionDispatchContext);
 
   const history = useHistory();
 
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  const readUserInfo = async () => {
+    setLoading(true);
+    const { data } = await Api.getUser();
+    setLoading(false);
+    setUser(data);
+
+    positionDispatch({
+      type: 'setUser',
+      userName: data.name,
+      userEmail: data.email,
+      imgUrl: data.imageURL,
+    });
+  };
   React.useEffect(() => {
+    readUserInfo();
     const target = document.querySelector('.MuiDrawer-paperAnchorDockedLeft');
     target.setAttribute('style', 'border-right: none;');
   }, []);
 
   const contentClicked = event => {
-    // setPlatform('test');
     const target = event.target.closest(`.${classes.others}`);
 
     if (target) {
@@ -101,6 +122,10 @@ const LeftBar = () => {
       }
     }
   };
+
+  if (loading) {
+    return null;
+  }
 
   return (
     <Drawer
