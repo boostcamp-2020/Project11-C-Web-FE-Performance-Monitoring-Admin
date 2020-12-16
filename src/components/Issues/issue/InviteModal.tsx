@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { makeStyles } from '@material-ui/core/styles';
-import Member from './Member';
+import Member from '@components/Issues/issue/Member';
 import Api from '@utils/Api';
 import Validation from '@utils/Validation';
 
@@ -38,7 +38,9 @@ const ModalDescription = styled.p`
 `;
 
 const InputForm = styled.form`
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 const InputText = styled.input`
@@ -74,7 +76,7 @@ const SearchButton = styled.button`
   }
 `;
 
-const InviteModal = () => {
+const InviteModal = ({ setModalOpen, projectId }) => {
   const classes = useStyles();
 
   const [modalStyle] = useState(getModalStyle);
@@ -83,10 +85,6 @@ const InviteModal = () => {
   const [disabled, setDisabled] = useState(true);
   const [isInput, setIsInput] = useState(true);
   const [isBasicDescription, setIsBasicDescrption] = useState(true);
-
-  const handleInviting = () => {
-    console.log('초대');
-  };
 
   const changeInput = (evt: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(evt.target.value);
@@ -103,6 +101,12 @@ const InviteModal = () => {
       setEmail('');
       setIsBasicDescrption(false);
     }
+  };
+
+  const clickInvite = async (userId: string) => {
+    const data = { userId };
+    await Api.postInvite(projectId, data);
+    setModalOpen(false);
   };
 
   useEffect(() => {
@@ -131,7 +135,11 @@ const InviteModal = () => {
         </InputForm>
       ) : (
         users.map(user => (
-          <Member key={user._id} name={user.name} onClick={handleInviting} />
+          <Member
+            key={user._id}
+            name={user.name}
+            onClick={() => clickInvite(user._id)}
+          />
         ))
       )}
     </div>
