@@ -38,9 +38,9 @@ const useStyles = makeStyles(theme => ({
   install: {},
 }));
 
-const Usage = ({ platform }) => {
+const Usage = ({ platform, dsn }) => {
   const classes = useStyles();
-  const { bashCode, jsCode, catchDesc } = guideInfo(platform, null);
+  const { bashCode, jsCode, catchDesc } = guideInfo(platform, dsn);
 
   return (
     <UsageRoot>
