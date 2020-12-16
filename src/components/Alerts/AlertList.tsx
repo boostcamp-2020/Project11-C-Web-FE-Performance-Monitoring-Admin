@@ -12,6 +12,7 @@ import AlertApi from '@utils/AlertApi';
 import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
 import styled from 'styled-components';
 import { Avatar, Chip } from '@material-ui/core';
+import EmailIcon from '@material-ui/icons/Email';
 
 const TitleContainer = styled.div`
   font-size: 1.2rem;
@@ -80,18 +81,20 @@ function Row(props: { row: any }) {
   const { row } = props;
 
   const classes = useRowStyles();
-
   return (
     <>
       <TableRow
         component={StyledLink}
-        to={`/projects/issues/detail/${row.issue}`}
+        to={
+          row.issue
+            ? `/projects/issues/detail/${row.issue}`
+            : `/projects/issues/${row.project._id}`
+        }
         className={classes.row}
         style={{
-          backgroundColor:
-            row.alertType.type > 0
-              ? 'rgba(77,179,228,0.3)'
-              : 'rgba(255,89,89,0.3) ',
+          backgroundColor: row.issue
+            ? 'rgba(255,89,89,0.3)'
+            : 'rgba(77,179,228,0.3)',
         }}
       >
         <TableCell align="center" className={classes.cell}></TableCell>
@@ -101,23 +104,21 @@ function Row(props: { row: any }) {
           scope="row"
           className={classes.cell}
         >
-          {row.alertType.type > 0 ? (
+          {row.issue ? (
             <Chip
               component={RectangleChip}
               label={row.alertType.name}
               icon={
                 <InfoOutlinedIcon color="primary" style={{ color: 'white' }} />
               }
-              style={{ backgroundColor: '#2b70be' }}
+              style={{ backgroundColor: 'rgba(0,0,0,0.0)' }}
             />
           ) : (
             <Chip
               component={RectangleChip}
               label={row.alertType.name}
-              icon={
-                <InfoOutlinedIcon color="primary" style={{ color: 'white' }} />
-              }
-              style={{ backgroundColor: '#ec5151' }}
+              icon={<EmailIcon color="primary" style={{ color: 'white' }} />}
+              style={{ backgroundColor: 'rgba(0,0,0,0.0)' }}
             />
           )}
         </TableCell>
@@ -161,9 +162,6 @@ const AlertListTable = () => {
 
   return (
     <>
-      <TitleContainer>
-        <h2>ALERT LIST</h2>
-      </TitleContainer>
       <TableContainer component={Paper} className={classes.root}>
         <Table aria-label="collapsible table">
           <TableHead className={classes.header}>
