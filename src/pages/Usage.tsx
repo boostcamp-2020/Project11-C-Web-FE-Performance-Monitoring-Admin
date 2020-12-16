@@ -54,7 +54,7 @@ const Usage = ({ match, location }) => {
   const [dsn, setDsn] = useState(location.state?.dsn);
 
   const clickUsageButton = () => {
-    history.push(`/projects/${location.state?.projectId}`);
+    history.push(`/projects/issues/${location.state?.projectId}`);
   };
 
   useEffect(() => {
