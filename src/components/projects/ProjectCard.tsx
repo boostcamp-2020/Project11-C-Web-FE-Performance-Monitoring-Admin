@@ -100,7 +100,7 @@ const ProjectCard = ({ project }) => {
       </ProjectCardBody>
       <ProjectCardFooter>
         Created {moment(project.createdAt).format('YYYY/MM/DD')} by{' '}
-        {project.owner.name}
+        {project.owner?.name}
       </ProjectCardFooter>
     </ProjectCardRoot>
   );
