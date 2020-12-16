@@ -30,6 +30,9 @@ const DailyErrorChart = ({ errorData }) => {
             type: 'category',
           },
         },
+        color: {
+          pattern: ['#1b7df7', '#fe3632', '#51d569', '#fa8e1b', '#1bf3fa'],
+        },
         bar: {
           width: 15,
         },

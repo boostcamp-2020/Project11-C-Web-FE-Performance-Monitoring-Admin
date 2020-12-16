@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import bb, { gauge } from 'billboard.js';
 import styled from 'styled-components';
+import { VictoryPie } from 'victory';
 
 const ChartDiv = styled.div`
   width: 20rem;
@@ -10,31 +11,32 @@ const ChartDiv = styled.div`
 const ResolveGaugeChart = ({ rateData, name }) => {
   const resolveGaugeChartDiv = useRef(null);
 
-  useEffect(() => {
-    if (rateData) {
-      const columns = [
-        [name, (rateData.true / (rateData.true + rateData.false)) * 100],
-      ];
+  const columns = [];
+  if (rateData) {
+    const resolvedRate =
+      (rateData.true / (rateData.true + rateData.false)) * 100;
+    columns.push({ x: 'Unresolved', y: 100 - resolvedRate });
+    columns.push({
+      x: name,
+      y: resolvedRate,
+    });
+  }
 
-      bb.generate({
-        data: {
-          columns,
-          type: gauge(),
+  return (
+    <VictoryPie
+      startAngle={90}
+      endAngle={-90}
+      data={columns}
+      style={{
+        labels: {
+          fill: 'white',
+          fontSize: 11,
         },
-        color: {
-          pattern: ['#FE2E2E', '#FE9A2E', '#31B404', '#045FB4'],
-          threshold: { values: [25, 50, 75, 100] },
-        },
-        gauge: {
-          background: 'grey',
-          width: 15,
-        },
-        bindto: resolveGaugeChartDiv.current,
-      });
-    }
-  }, [rateData, name]);
-
-  return <ChartDiv ref={resolveGaugeChartDiv} />;
+      }}
+      colorScale={['#fa221b', '#1b7dfa']}
+      innerRadius={130}
+    />
+  );
 };
 
 export default ResolveGaugeChart;
