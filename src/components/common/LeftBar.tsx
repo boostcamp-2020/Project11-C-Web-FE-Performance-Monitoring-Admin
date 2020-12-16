@@ -20,8 +20,6 @@ import NewReleasesIcon from '@material-ui/icons/NewReleases';
 import HelpIcon from '@material-ui/icons/Help';
 import SyncAltIcon from '@material-ui/icons/SyncAlt';
 import UserContainer from './UserContainer';
-import { Link } from 'react-router-dom';
-
 import { PositionStateContext } from '../../context/PositionProvider';
 
 const drawerWidth = 240;
@@ -69,7 +67,9 @@ const useStyles = makeStyles(theme => ({
 const LeftBar = () => {
   const classes = useStyles();
   const content = React.useContext(PositionStateContext);
+
   const history = useHistory();
+
   React.useEffect(() => {
     const target = document.querySelector('.MuiDrawer-paperAnchorDockedLeft');
     target.setAttribute('style', 'border-right: none;');

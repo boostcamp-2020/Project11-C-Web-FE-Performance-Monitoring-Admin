@@ -88,6 +88,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const IssueItem = props => {
+  console.log(props);
   const history = useHistory();
   const classes = useStyles();
 
@@ -122,7 +123,6 @@ const IssueItem = props => {
             withCredentials: true,
           }
         );
-        console.log(respone.data);
         setErrorEvents(respone.data);
       } catch (e) {
         setError(e);

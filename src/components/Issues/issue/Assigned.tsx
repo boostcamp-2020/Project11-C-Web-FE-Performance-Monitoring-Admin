@@ -7,6 +7,8 @@ import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import AddBoxIcon from '@material-ui/icons/AddBox';
 import Member from './Member';
+import AssignedMember from './AssignedMember';
+
 import Modal from '@material-ui/core/Modal';
 import InviteModal from './InviteModal';
 
@@ -75,7 +77,6 @@ const changeAssinged = async (
 export default function Assigned(props) {
   const classes = useStyles();
   const [modalOpen, setModalOpen] = useState(false);
-
   const handleModalOpen = () => {
     setModalOpen(true);
   };
@@ -210,11 +211,11 @@ export default function Assigned(props) {
       </div>
     );
 
-  const getAsignee = (assignee: string) => {
+  const getAssignee = assignee => {
     if (assignee) {
       return (
-        <Member
-          name={assignee}
+        <AssignedMember
+          name={assignee.name}
           target={classes.openUserListButton}
           onClick={handleClick}
         />
@@ -259,7 +260,7 @@ export default function Assigned(props) {
           id={props.issueId + 'openIcon'}
         />
       </Button> */}
-      {getAsignee(props.assignee)}
+      {getAssignee(props.assignee)}
       <Popover
         id={id}
         open={open}
