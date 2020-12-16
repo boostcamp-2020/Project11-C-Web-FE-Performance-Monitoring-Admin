@@ -3,3 +3,7 @@ export interface CreateProject {
   description: string;
   platform: string;
 }
+
+export interface InviteMember {
+  userId: string;
+}

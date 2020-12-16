@@ -84,6 +84,18 @@ const getUserByEamil = async (email: string): Promise<any> => {
   }
 };
 
+const postInvite = async (projectId: string, data: any): Promise<any> => {
+  try {
+    return await axios.post(
+      `${process.env.API_URL}/project/${projectId}/invite`,
+      data,
+      { withCredentials: true }
+    );
+  } catch (err) {
+    return err;
+  }
+};
+
 export default {
   getUser,
   getProject,
@@ -93,4 +105,5 @@ export default {
   getChartIssue,
   getChartTag,
   getUserByEamil,
+  postInvite,
 };
