@@ -1,10 +1,11 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Toolbar from '@material-ui/core/Toolbar';
 import LeftBar from '@components/common/LeftBar';
 import MainContainer from '@components/Issues/MainContainer';
 import { PositionDispatchContext } from '../context/PositionProvider';
+import Api from '@utils/Api';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -23,15 +24,34 @@ const useStyles = makeStyles(theme => ({
 const MainPage = ({ match }) => {
   const classes = useStyles();
 
-  const positionDispatch = React.useContext(PositionDispatchContext);
+  const positionDispatch = useContext(PositionDispatchContext);
 
-  React.useEffect(() => {
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  const readUserInfo = async () => {
+    setLoading(true);
+    const { data } = await Api.getUser();
+    setLoading(false);
+    setUser(data);
+
     positionDispatch({
-      type: 'update',
+      type: 'set',
       content: 'Issues',
-      projectId: match.params.projectId,
+      projectId: data.recentProject,
+      userName: data.name,
+      userEmail: data.email,
+      imgUrl: data.imageURL,
     });
+  };
+
+  useEffect(() => {
+    readUserInfo();
   }, []);
+
+  if (loading) {
+    return null;
+  }
 
   return (
     <div className={classes.root}>

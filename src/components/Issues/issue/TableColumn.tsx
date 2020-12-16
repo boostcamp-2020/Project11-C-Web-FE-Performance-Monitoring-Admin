@@ -145,7 +145,7 @@ const TableColumn = props => {
           description={issue.message}
           eventNum={issue.errorEvents.length}
           userNum={issue.users}
-          assigned={issue.assigned}
+          assignee={issue.assignee}
           errorEvents={issue.errorEvents}
           stack={issue.stack}
           date={issue.updatedAt}

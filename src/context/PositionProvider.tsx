@@ -29,6 +29,15 @@ const reducer = (state, action) => {
         state[4],
       ];
       return newPosition;
+    case 'setUser':
+      const newData = [
+        state[0],
+        action.projectId,
+        action.userName,
+        action.userEmail,
+        action.imgUrl,
+      ];
+      return newData;
     default:
       break;
   }

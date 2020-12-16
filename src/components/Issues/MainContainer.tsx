@@ -43,7 +43,6 @@ const MainContainer = ({ projectId }) => {
 
         const checkBoxState: boolean[] = new Array(response.data.length + 1);
         checkBoxState.fill(false);
-
         setIssues(response.data);
       } catch (e) {
         setError(e);

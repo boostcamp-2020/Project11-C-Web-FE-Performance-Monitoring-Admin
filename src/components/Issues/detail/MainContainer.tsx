@@ -98,7 +98,7 @@ const MainContainer = (props: { issueId: string }) => {
   if (!errorEvent) return null;
   const pathInfo = issue?.stack.split('\n')[1].split('/');
   const fileInfo = pathInfo[pathInfo.length - 1];
-
+  console.log(issue);
   return (
     <div className={classes.DetailContainer}>
       <div>
@@ -110,6 +110,7 @@ const MainContainer = (props: { issueId: string }) => {
           issueId={issue._id}
           projectId={issue.projectId._id}
           members={issue.projectId.members}
+          assignee={issue.assignee}
           date={new Date(errorEvent.date).toLocaleString()}
         />
       </div>

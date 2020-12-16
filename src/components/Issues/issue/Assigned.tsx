@@ -7,6 +7,8 @@ import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import AddBoxIcon from '@material-ui/icons/AddBox';
 import Member from './Member';
+import AssignedMember from './AssignedMember';
+
 import Modal from '@material-ui/core/Modal';
 import InviteModal from './InviteModal';
 
@@ -74,8 +76,7 @@ const changeAssinged = async (
 
 export default function Assigned(props) {
   const classes = useStyles();
-  const [modalOpen, setModalOpen] = React.useState(false);
-
+  const [modalOpen, setModalOpen] = useState(false);
   const handleModalOpen = () => {
     setModalOpen(true);
   };
@@ -84,7 +85,7 @@ export default function Assigned(props) {
     setModalOpen(false);
   };
 
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
 
   const handleClick = event => {
     setAnchorEl(event.currentTarget);
@@ -108,7 +109,7 @@ export default function Assigned(props) {
         setLoading(true);
 
         const response: any = await axios.get(
-          `${process.env.API_URL}/project/${props.projectId}`,
+          `${process.env.API_URL}/project/v2/${props.projectId}`,
           {
             withCredentials: true,
           }
@@ -210,8 +211,18 @@ export default function Assigned(props) {
       </div>
     );
 
-  return (
-    <div className="assignedContainer">
+  const getAssignee = assignee => {
+    if (assignee) {
+      return (
+        <AssignedMember
+          name={assignee.name}
+          target={classes.openUserListButton}
+          onClick={handleClick}
+        />
+      );
+    }
+
+    return (
       <Button
         className={classes.openUserListButton}
         aria-describedby={id}
@@ -228,6 +239,28 @@ export default function Assigned(props) {
           id={props.issueId + 'openIcon'}
         />
       </Button>
+    );
+  };
+
+  return (
+    <div className="assignedContainer">
+      {/* <Button
+        className={classes.openUserListButton}
+        aria-describedby={id}
+        id={props.issueId + 'assigneeButton'}
+        variant="contained"
+        onClick={handleClick}
+      >
+        <PersonAddIcon
+          className={classes.userIcon}
+          id={props.issueId + 'userIcon'}
+        />
+        <ArrowDropDownIcon
+          className={classes.openIcon}
+          id={props.issueId + 'openIcon'}
+        />
+      </Button> */}
+      {getAssignee(props.assignee)}
       <Popover
         id={id}
         open={open}
@@ -250,7 +283,7 @@ export default function Assigned(props) {
         aria-labelledby="simple-modal-title"
         aria-describedby="simple-modal-description"
       >
-        <InviteModal />
+        <InviteModal setModalOpen={setModalOpen} projectId={props.projectId} />
       </Modal>
     </div>
   );

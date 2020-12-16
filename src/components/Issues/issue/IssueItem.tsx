@@ -88,6 +88,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const IssueItem = props => {
+  console.log(props);
   const history = useHistory();
   const classes = useStyles();
 
@@ -122,7 +123,6 @@ const IssueItem = props => {
             withCredentials: true,
           }
         );
-
         setErrorEvents(respone.data);
       } catch (e) {
         setError(e);
@@ -165,7 +165,11 @@ const IssueItem = props => {
         <Avatar className={classes.countAvatar}>{props.eventNum}</Avatar>
       </div>
       <div className={classes.column}>
-        <Assigned projectId={props.projectId} issueId={props.issueId} />
+        <Assigned
+          projectId={props.projectId}
+          issueId={props.issueId}
+          assignee={props.assignee}
+        />
       </div>
     </div>
   );

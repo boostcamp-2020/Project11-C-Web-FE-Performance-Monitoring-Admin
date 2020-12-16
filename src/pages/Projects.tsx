@@ -127,13 +127,18 @@ const Projects = () => {
     );
   }
 
+  // positionDispatch({
+  //   type: 'set',
+  //   content: 'Projects',
+  //   projectId: user.recentProject,
+  //   userName: user.name,
+  //   userEmail: user.email,
+  //   imgUrl: user.imageURL,
+  // });
+
   positionDispatch({
-    type: 'set',
+    type: 'setPosition',
     content: 'Projects',
-    projectId: user.recentProject,
-    userName: user.name,
-    userEmail: user.email,
-    imgUrl: user.imageURL,
   });
 
   return (

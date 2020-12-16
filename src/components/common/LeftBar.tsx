@@ -20,21 +20,13 @@ import NewReleasesIcon from '@material-ui/icons/NewReleases';
 import HelpIcon from '@material-ui/icons/Help';
 import SyncAltIcon from '@material-ui/icons/SyncAlt';
 import UserContainer from './UserContainer';
-import { Link } from 'react-router-dom';
-
-import { PositionStateContext } from '../../context/PositionProvider';
+import {
+  PositionStateContext,
+  PositionDispatchContext,
+} from '../../context/PositionProvider';
+import Api from '@utils/Api';
 
 const drawerWidth = 240;
-
-const topIcons = [
-  <FolderSharedIcon />,
-  <ErrorOutlineIcon />,
-  <Badge badgeContent={1} color="secondary">
-    <NotificationsActiveIcon />{' '}
-  </Badge>,
-  <AssessmentIcon />,
-  <SettingsApplicationsIcon />,
-];
 
 const bottomIcons = [<NewReleasesIcon />, <HelpIcon />, <SyncAltIcon />];
 
@@ -64,19 +56,53 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: 'rgba(200,200,200,0.3)',
   },
   others: {},
+  alertIcon: {
+    color: '#e22d2d',
+  },
 }));
 
 const LeftBar = () => {
   const classes = useStyles();
   const content = React.useContext(PositionStateContext);
+  const positionDispatch = React.useContext(PositionDispatchContext);
+
   const history = useHistory();
+
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  const topIcons = [
+    <FolderSharedIcon />,
+    <NotificationsActiveIcon className={classes.alertIcon} />,
+    <ErrorOutlineIcon />,
+    <AssessmentIcon />,
+    <SettingsApplicationsIcon />,
+  ];
+
+  const readUserInfo = async () => {
+    setLoading(true);
+    const { data } = await Api.getUser();
+    setLoading(false);
+    setUser(data);
+
+    positionDispatch({
+      type: 'setUser',
+      projectId: data.recentProject,
+      userName: data.name,
+      userEmail: data.email,
+      imgUrl: data.imageURL,
+    });
+  };
   React.useEffect(() => {
+    readUserInfo();
     const target = document.querySelector('.MuiDrawer-paperAnchorDockedLeft');
     target.setAttribute('style', 'border-right: none;');
+    return () => {
+      readUserInfo();
+    };
   }, []);
 
   const contentClicked = event => {
-    // setPlatform('test');
     const target = event.target.closest(`.${classes.others}`);
 
     if (target) {
@@ -102,6 +128,10 @@ const LeftBar = () => {
     }
   };
 
+  if (loading) {
+    return null;
+  }
+
   return (
     <Drawer
       className={classes.drawer}
@@ -118,7 +148,7 @@ const LeftBar = () => {
             email={content[3]}
             url={content[4]}
           />
-          {['Projects', 'Issues', 'Alerts', 'Stats', 'Settings'].map(
+          {['Projects', 'Alerts', 'Issues', 'Stats', 'Settings'].map(
             (text, index) => (
               <ListItem
                 button
