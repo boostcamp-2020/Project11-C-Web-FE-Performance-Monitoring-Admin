@@ -50,8 +50,6 @@ const Login: React.FC = () => {
         const recentProject = response.data.userInfo.recentProject;
         if (recentProject) {
           history.push(`/projects/issues/${recentProject}`);
-        } else {
-          history.push(`/projects`);
         }
       } catch (error) {
         setError(error);
