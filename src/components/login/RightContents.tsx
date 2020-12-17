@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import styled, { css, keyframes } from 'styled-components';
-import { makeStyles } from '@material-ui/core/styles';
+import React, { useEffect, useState } from 'react';
+import styled, { keyframes } from 'styled-components';
+import Api from '@utils/Api';
 
 const MIN_USERNAME_LENGTH = 4;
 const MIN_PASSWORD_LENGTH = 8;
@@ -75,10 +75,13 @@ const SingUpButton = styled.button`
   border-radius: 5px;
   font-size: 2rem;
   color: gray;
-  :hover {
+  :not([disabled]):hover {
     background-color: #00bfa5;
     color: #f1f1f1;
     transition: 0.5s;
+  }
+  :disabled:hover {
+    cursor: auto;
   }
 `;
 
@@ -101,6 +104,7 @@ const RightContents = () => {
   const [usernameInput, setUsenameInput] = useState<string>('');
   const [emailInput, setEmailInput] = useState<string>('');
   const [passwordInput, setPasInput] = useState<string>('');
+  const [disabled, setDisabled] = useState<boolean>(true);
 
   const handleInput = setInput => event => {
     setInput(event.target.value);
@@ -127,6 +131,17 @@ const RightContents = () => {
     return '2px solid rgba(0, 255, 0, 0.5)';
   };
 
+  const clickSignUp = async () => {
+    const data = { name: usernameInput, pwd: passwordInput, email: emailInput };
+    const {
+      data: { isCreated },
+    } = await Api.postSignUp(data);
+  };
+
+  useEffect(() => {
+    setDisabled(!(usernameInput && emailInput && passwordInput));
+  }, [usernameInput, emailInput, passwordInput]);
+
   return (
     <Container>
       <BackgroundImage src="../../public/svg/circle.svg" />
@@ -152,8 +167,11 @@ const RightContents = () => {
           value={passwordInput}
           onChange={handleInput(setPasInput)}
           borderOption={checkInputValidation(passwordInput, isRightPassword)}
+          type="password"
         />
-        <SingUpButton>Sign Up</SingUpButton>
+        <SingUpButton disabled={disabled} onClick={clickSignUp}>
+          Sign Up
+        </SingUpButton>
         <FormText>
           Click this if you want to sign in more simply. You are signed in with{' '}
           <OauthLink onClick={OauthHandler}>Google</OauthLink> or
