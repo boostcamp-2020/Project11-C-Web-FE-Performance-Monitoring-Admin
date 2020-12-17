@@ -7,3 +7,9 @@ export interface CreateProject {
 export interface InviteMember {
   userId: string;
 }
+
+export interface SignUpUser {
+  name: string;
+  email: string;
+  pwd: string;
+}
