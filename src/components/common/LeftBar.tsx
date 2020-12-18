@@ -20,11 +20,7 @@ import NewReleasesIcon from '@material-ui/icons/NewReleases';
 import HelpIcon from '@material-ui/icons/Help';
 import SyncAltIcon from '@material-ui/icons/SyncAlt';
 import UserContainer from './UserContainer';
-import {
-  PositionStateContext,
-  PositionDispatchContext,
-} from '../../context/PositionProvider';
-import Api from '@utils/Api';
+import { PositionStateContext } from '../../context/PositionProvider';
 
 const drawerWidth = 240;
 
@@ -64,12 +60,7 @@ const useStyles = makeStyles(theme => ({
 const LeftBar = () => {
   const classes = useStyles();
   const content = React.useContext(PositionStateContext);
-  const positionDispatch = React.useContext(PositionDispatchContext);
-
   const history = useHistory();
-
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(false);
 
   const topIcons = [
     <FolderSharedIcon />,
@@ -79,27 +70,9 @@ const LeftBar = () => {
     <SettingsApplicationsIcon />,
   ];
 
-  const readUserInfo = async () => {
-    setLoading(true);
-    const { data } = await Api.getUser();
-    setLoading(false);
-    setUser(data);
-
-    positionDispatch({
-      type: 'setUser',
-      projectId: data.recentProject,
-      userName: data.name,
-      userEmail: data.email,
-      imgUrl: data.imageURL,
-    });
-  };
   React.useEffect(() => {
-    readUserInfo();
     const target = document.querySelector('.MuiDrawer-paperAnchorDockedLeft');
     target.setAttribute('style', 'border-right: none;');
-    return () => {
-      readUserInfo();
-    };
   }, []);
 
   const contentClicked = event => {
@@ -111,7 +84,7 @@ const LeftBar = () => {
           if (content[0] !== 'Projects') history.push('/projects');
           break;
         case 'Issues':
-          if (content[0] !== 'Issues' && content[1] !== 'none')
+          if (content[0] !== 'Issues' && content[1] !== 'none' && content[1])
             history.push(`/projects/issues/${content[1]}`);
           break;
         case 'Alerts':
@@ -119,7 +92,7 @@ const LeftBar = () => {
             history.push(`/alerts`);
           break;
         case 'Stats':
-          if (content[0] !== 'Stats' && content[1] !== 'none')
+          if (content[0] !== 'Stats' && content[1] !== 'none' && content[1])
             history.push(`/projects/${content[1]}/stats`);
           break;
         default:
@@ -127,10 +100,6 @@ const LeftBar = () => {
       }
     }
   };
-
-  if (loading) {
-    return null;
-  }
 
   return (
     <Drawer
@@ -143,11 +112,7 @@ const LeftBar = () => {
       <Toolbar />
       <div className={classes.drawerContainer} onClick={contentClicked}>
         <List>
-          <UserContainer
-            name={content[2]}
-            email={content[3]}
-            url={content[4]}
-          />
+          <UserContainer />
           {['Projects', 'Alerts', 'Issues', 'Stats', 'Settings'].map(
             (text, index) => (
               <ListItem
