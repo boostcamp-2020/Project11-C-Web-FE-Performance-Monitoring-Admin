@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import axios from 'axios';
 import SortButton from './SortButton';
 import SearchButton from './SearchButton';
-import Button from '@material-ui/core/Button';
+import { IssuesStateContext } from '../../../context/IssuesProvider';
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -52,10 +52,11 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const Filter = props => {
+const Filter = ({ projectId }) => {
   const classes = useStyles();
   const [projectName, setProjectName] = useState(null);
   const [error, setError] = useState(null);
+  const issues = useContext(IssuesStateContext);
 
   useEffect(() => {
     const getProject = async () => {
@@ -63,7 +64,7 @@ const Filter = props => {
         setProjectName(null);
 
         const response: any = await axios.get(
-          `${process.env.API_URL}/project/${props.projectId}`,
+          `${process.env.API_URL}/project/${projectId}`,
           {
             withCredentials: true,
           }
@@ -83,7 +84,7 @@ const Filter = props => {
 
   return (
     <div className={classes.container}>
-      <div className={classes.issueCount}>Issues ({props.eventNum})</div>
+      <div className={classes.issueCount}>Issues ({issues.length})</div>
       <div className={classes.project}>
         <span className={classes.projectName}>Project Title : </span>
         <p className={classes.projectNameValue}>{projectName}</p>

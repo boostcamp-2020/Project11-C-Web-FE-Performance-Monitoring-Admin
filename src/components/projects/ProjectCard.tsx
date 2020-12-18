@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import moment from 'moment';
+import axios from 'axios';
+import { IssuesDispatchContext } from '../../context/IssuesProvider';
 
 const ProjectCardRoot = styled.div`
   border: 0.05rem rgba(0, 0, 0, 0.35) solid;
@@ -48,12 +50,6 @@ const ProjectCardBody = styled.div`
   background-color: rgba(0, 0, 0, 0.3);
 `;
 
-const ProjectCardBodyErrorCount = styled.div`
-  font-size: 1rem;
-  font-weight: 400;
-  color: #fa5858;
-`;
-
 const ProjectCardBodyChart = styled.div`
   height: 10rem;
   display: flex;
@@ -66,22 +62,30 @@ const ProjectCardFooter = styled.div`
   background-color: rgba(0, 0, 0, 0.1);
 `;
 
-const ProjectCardFooterImage = styled.img`
-  width: 2rem;
-  height: 2rem;
-  object-fit: contain;
-`;
-
 const ProjectCardBodyImage = styled.img`
   width: 10rem;
   height: 10rem;
   object-fit: contain;
 `;
 
+const getIssues = async (projectId: string) => {
+  const response: any = await axios.get(
+    `${process.env.API_URL}/issue/project/${projectId}/${1}`,
+    {
+      withCredentials: true,
+    }
+  );
+
+  return response.data;
+};
+
 const ProjectCard = ({ project }) => {
   const history = useHistory();
+  const issuesDispatch = useContext(IssuesDispatchContext);
 
-  const clickProjectCard = () => {
+  const clickProjectCard = async () => {
+    const newIssues = await getIssues(project._id);
+    issuesDispatch({ type: 'set', issues: newIssues });
     history.push(`/projects/issues/${project._id}`);
   };
 
@@ -90,20 +94,12 @@ const ProjectCard = ({ project }) => {
       <ProjectCardHeader>
         <ProjectCardHeaderTitleWrapper isPlatform={!!project.platform}>
           <ProjectCardHeaderTitle>{project.title}</ProjectCardHeaderTitle>
-          {/* {project.platform && (
-            <ProjectCardFooterImage
-              src={`../../../public/png/${project.platform}.png`}
-            />
-          )} */}
         </ProjectCardHeaderTitleWrapper>
         <ProjectCardHeaderDescription>
           {project.description}
         </ProjectCardHeaderDescription>
       </ProjectCardHeader>
       <ProjectCardBody>
-        {/* <ProjectCardBodyErrorCount>
-          Unresolved errors: 0
-        </ProjectCardBodyErrorCount> */}
         <ProjectCardBodyChart>
           {project.platform && (
             <ProjectCardBodyImage
