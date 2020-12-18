@@ -98,7 +98,7 @@ const MainContainer = (props: { issueId: string }) => {
   if (!errorEvent) return null;
   const pathInfo = issue?.stack.split('\n')[1].split('/');
   const fileInfo = pathInfo[pathInfo.length - 1];
-  console.log(issue);
+
   return (
     <div className={classes.DetailContainer}>
       <div>
