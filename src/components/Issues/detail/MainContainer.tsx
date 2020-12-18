@@ -67,7 +67,7 @@ const MainContainer = (props: { issueId: string }) => {
 
   useEffect(() => {}, [currentErrorEventIdx]);
 
-  const initISsueData = async () => {
+  const initIssueData = async () => {
     setIsLoading(true);
     const issueData = await IssueDetailApi.getDetailIssueByIssueId(issueId);
     setIssue(issueData);
@@ -82,7 +82,7 @@ const MainContainer = (props: { issueId: string }) => {
   };
 
   useEffect(() => {
-    initISsueData(); // 이슈 정보, 가장 최근 발생한 에러 이벤트 받아옴
+    initIssueData(); // 이슈 정보, 가장 최근 발생한 에러 이벤트 받아옴
   }, []);
 
   if (isLoading) {
@@ -103,14 +103,8 @@ const MainContainer = (props: { issueId: string }) => {
     <div className={classes.DetailContainer}>
       <div>
         <DetailHeader
-          name={issue.name}
+          issue={issue}
           fileInfo={fileInfo}
-          message={issue.message}
-          count={issue.errorEvents.length}
-          issueId={issue._id}
-          projectId={issue.projectId._id}
-          members={issue.projectId.members}
-          assignee={issue.assignee}
           date={new Date(errorEvent.date).toLocaleString()}
         />
       </div>

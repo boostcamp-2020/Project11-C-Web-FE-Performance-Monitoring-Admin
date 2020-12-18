@@ -145,20 +145,7 @@ const TableColumn = () => {
         <div className={classes.column}>Assigned</div>
       </div>
       {issues.map(issue => (
-        <IssueItem
-          key={issue._id}
-          issueId={issue._id}
-          name={issue.name}
-          description={issue.message}
-          eventNum={issue.errorEvents.length}
-          userNum={issue.users}
-          assignee={issue.assignee}
-          errorEvents={issue.errorEvents}
-          stack={issue.stack}
-          date={issue.updatedAt}
-          projectId={issue.projectId}
-          onClick={handleChecked}
-        />
+        <IssueItem key={issue._id} issue={issue} onClick={handleChecked} />
       ))}
     </div>
   );

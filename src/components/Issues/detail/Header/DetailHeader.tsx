@@ -130,21 +130,20 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const DetailHeader = props => {
+const DetailHeader = ({ issue, fileInfo, date }) => {
   const classes = useStyles();
   const history = useHistory();
-
   const handleResolve = () => {
     const updateIssuesResolve = async () => {
       const result = await axios.put(
         `${process.env.API_URL}/issue/resolved`,
-        { issueIdList: props.issueId, resolved: true },
+        { issueIdList: issue._id, resolved: true },
         {
           withCredentials: true,
         }
       );
 
-      history.push(`/projects/${props.projectId}`);
+      history.push(`/projects/${issue.projectId._id}`);
     };
 
     updateIssuesResolve();
@@ -154,14 +153,14 @@ const DetailHeader = props => {
       <div className={classes.IssueContainer}>
         <div className={classes.IssueContainerLeft}>
           <div className={classes.IssueInfoContainer}>
-            <strong className={classes.IssueName}>{props.name}</strong>{' '}
-            <p className={classes.FileInfo}>{props.fileInfo}</p>
+            <strong className={classes.IssueName}>{issue.name}</strong>{' '}
+            <p className={classes.FileInfo}>{fileInfo}</p>
           </div>
           <div className={classes.messageContainer}>
             <FiberManualRecordIcon className={classes.messageIcon} />{' '}
-            <h2 className={classes.messageValue}>{props.message}</h2>
+            <h2 className={classes.messageValue}>{issue.message}</h2>
           </div>
-          <h3 className={classes.eventDate}> {props.date}</h3>
+          <h3 className={classes.eventDate}> {date}</h3>
           <div className={classes.ButtonContainer}>
             <Button
               variant="contained"
@@ -194,16 +193,18 @@ const DetailHeader = props => {
             <div className={classes.utilsName}>Assigned</div>
           </div>
           <div className={classes.utilsNameContainer}>
-            <p className={classes.utilsProjectValue}>icon _ project name</p>
+            <p className={classes.utilsProjectValue}>{issue.projectId.title}</p>
             <div className={classes.utilsValueDiv}>
-              <div className={classes.utilsNameValue}>{props.count}</div>
+              <div className={classes.utilsNameValue}>
+                {issue.errorEvents.length}
+              </div>
             </div>
 
             <div className={classes.utilsValueDiv}>
               <Assigned
-                members={props.members}
-                issueId={props.issueId}
-                assignee={props.assignee}
+                members={issue.projectId.members}
+                issueId={issue._id}
+                assignee={issue.assignee}
               />
             </div>
           </div>

@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
-import styled, { css, keyframes } from 'styled-components';
-import { makeStyles } from '@material-ui/core/styles';
+import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import styled, { keyframes } from 'styled-components';
+import Api from '@utils/Api';
 
 const MIN_USERNAME_LENGTH = 4;
 const MIN_PASSWORD_LENGTH = 8;
@@ -58,6 +59,7 @@ const TextField = styled.input<{ borderOption: string }>`
   outline: none;
   border: none;
   padding: 10px;
+  color: rgba(241, 241, 241, 1);
   font-size: 1rem;
   border: ${props => props.borderOption};
   border-radius: 5px;
@@ -75,10 +77,13 @@ const SingUpButton = styled.button`
   border-radius: 5px;
   font-size: 2rem;
   color: gray;
-  :hover {
+  :not([disabled]):hover {
     background-color: #00bfa5;
     color: #f1f1f1;
     transition: 0.5s;
+  }
+  :disabled:hover {
+    cursor: auto;
   }
 `;
 
@@ -91,6 +96,8 @@ const OauthLink = styled.i`
 `;
 
 const RightContents = () => {
+  const history = useHistory();
+
   const OauthHandler = () => {
     window.location.href = `${process.env.API_URL}/oauth/google`;
   };
@@ -98,9 +105,10 @@ const RightContents = () => {
     window.location.href = `${process.env.API_URL}/oauth/github`;
   };
 
-  const [usernameInput, setUsenameInput] = useState<string>('');
+  const [usernameInput, setUsernameInput] = useState<string>('');
   const [emailInput, setEmailInput] = useState<string>('');
-  const [passwordInput, setPasInput] = useState<string>('');
+  const [passwordInput, setPasswordInput] = useState<string>('');
+  const [disabled, setDisabled] = useState<boolean>(true);
 
   const handleInput = setInput => event => {
     setInput(event.target.value);
@@ -127,6 +135,21 @@ const RightContents = () => {
     return '2px solid rgba(0, 255, 0, 0.5)';
   };
 
+  const clickSignUp = async () => {
+    const data = { name: usernameInput, pwd: passwordInput, email: emailInput };
+    const {
+      data: { signUp },
+    } = await Api.postSignUp(data);
+    if (signUp) history.push('/projects');
+    setEmailInput('Email already signed up');
+    setUsernameInput('');
+    setPasswordInput('');
+  };
+
+  useEffect(() => {
+    setDisabled(!(usernameInput && emailInput && passwordInput));
+  }, [usernameInput, emailInput, passwordInput]);
+
   return (
     <Container>
       <BackgroundImage src="../../public/svg/circle.svg" />
@@ -138,7 +161,7 @@ const RightContents = () => {
         <FormText>Username</FormText>
         <TextField
           value={usernameInput}
-          onChange={handleInput(setUsenameInput)}
+          onChange={handleInput(setUsernameInput)}
           borderOption={checkInputValidation(usernameInput, isRightUserName)}
         />
         <FormText>Email</FormText>
@@ -150,10 +173,13 @@ const RightContents = () => {
         <FormText>Password</FormText>
         <TextField
           value={passwordInput}
-          onChange={handleInput(setPasInput)}
+          onChange={handleInput(setPasswordInput)}
           borderOption={checkInputValidation(passwordInput, isRightPassword)}
+          type="password"
         />
-        <SingUpButton>Sign Up</SingUpButton>
+        <SingUpButton disabled={disabled} onClick={clickSignUp}>
+          Sign Up
+        </SingUpButton>
         <FormText>
           Click this if you want to sign in more simply. You are signed in with{' '}
           <OauthLink onClick={OauthHandler}>Google</OauthLink> or
