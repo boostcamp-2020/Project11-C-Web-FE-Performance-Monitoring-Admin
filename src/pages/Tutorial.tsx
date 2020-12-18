@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
-import TutorialStepper from '@components/tutorial/tutorialStepper';
+import TutorialStepper from '@components/tutorial/TutorialStepper';
 
 const useStyles = makeStyles(theme => ({
   root: {
