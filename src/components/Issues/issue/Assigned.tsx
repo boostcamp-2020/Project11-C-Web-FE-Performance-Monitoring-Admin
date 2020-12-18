@@ -83,9 +83,14 @@ const ModalBody = React.forwardRef((props: any, ref: any) => (
   </div>
 ));
 
-export default function Assigned(props) {
+const Assigned = props => {
   const classes = useStyles();
   const [modalOpen, setModalOpen] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+  const id = open ? 'simple-popover' : undefined;
+  const projectMembers = props.members;
+
   const handleModalOpen = () => {
     setModalOpen(true);
   };
@@ -93,8 +98,6 @@ export default function Assigned(props) {
   const handleModalClose = () => {
     setModalOpen(false);
   };
-
-  const [anchorEl, setAnchorEl] = useState(null);
 
   const handleClick = event => {
     setAnchorEl(event.currentTarget);
@@ -104,43 +107,6 @@ export default function Assigned(props) {
     setAnchorEl(null);
   };
 
-  const open = Boolean(anchorEl);
-  const id = open ? 'simple-popover' : undefined;
-
-  const [projectMembers, setProjectMembers] = useState(props.members);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    const getProject = async () => {
-      try {
-        setProjectMembers(null);
-        setLoading(true);
-
-        const response: any = await axios.get(
-          `${process.env.API_URL}/project/v2/${props.projectId}`,
-          {
-            withCredentials: true,
-          }
-        );
-
-        setProjectMembers(response.data.members);
-        setLoading(false);
-      } catch (e) {
-        setError(e);
-      }
-    };
-
-    if (props.projectId) {
-      getProject();
-    } else {
-      setLoading(false);
-    }
-  }, []);
-
-  if (error) return <div>에러가 발생했습니다</div>;
-
-  //담당자 변경하는 api 요청을 추가해야함
   const handleAssigned = event => {
     let memberContainer = event.target.closest(`div`);
 
@@ -179,10 +145,7 @@ export default function Assigned(props) {
     changeAssinged(props.issueId, selectedMember._id, props.projectId);
   };
 
-  if (loading) {
-    return <div>로딩 중...</div>;
-  }
-  let Members =
+  const Members =
     projectMembers.length > 0 ? (
       <div className={classes.usersContainer}>
         {projectMembers.map(member => (
@@ -253,22 +216,6 @@ export default function Assigned(props) {
 
   return (
     <div className="assignedContainer">
-      {/* <Button
-        className={classes.openUserListButton}
-        aria-describedby={id}
-        id={props.issueId + 'assigneeButton'}
-        variant="contained"
-        onClick={handleClick}
-      >
-        <PersonAddIcon
-          className={classes.userIcon}
-          id={props.issueId + 'userIcon'}
-        />
-        <ArrowDropDownIcon
-          className={classes.openIcon}
-          id={props.issueId + 'openIcon'}
-        />
-      </Button> */}
       {getAssignee(props.assignee)}
       <Popover
         id={id}
@@ -296,4 +243,6 @@ export default function Assigned(props) {
       </Modal>
     </div>
   );
-}
+};
+
+export default Assigned;
