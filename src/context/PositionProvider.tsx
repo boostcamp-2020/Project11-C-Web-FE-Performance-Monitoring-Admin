@@ -3,40 +3,15 @@ import React, { useState, useEffect, createContext, useReducer } from 'react';
 const reducer = (state, action) => {
   switch (action.type) {
     case 'set':
-      return [
-        action.content,
-        action.projectId,
-        action.userName,
-        action.userEmail,
-        action.imgUrl,
-      ];
+      return [action.content, action.projectId];
     case 'update':
-      const data = [
-        action.content,
-        action.projectId,
-        state[2],
-        state[3],
-        state[4],
-      ];
-
+      const data = [action.content, action.projectId];
       return data;
     case 'setPosition':
-      const newPosition = [
-        action.content,
-        state[1],
-        state[2],
-        state[3],
-        state[4],
-      ];
+      const newPosition = [action.content, state[1]];
       return newPosition;
     case 'setUser':
-      const newData = [
-        state[0],
-        action.projectId,
-        action.userName,
-        action.userEmail,
-        action.imgUrl,
-      ];
+      const newData = [state[0], action.projectId];
       return newData;
     default:
       break;
