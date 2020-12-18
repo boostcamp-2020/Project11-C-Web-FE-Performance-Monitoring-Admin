@@ -31,14 +31,8 @@ const IssuesProvider = ({ children }) => {
       if (userState.length > 0) {
         if (userState[0]) {
           positionDispatch({
-            type: 'set',
-            content: 'Issues',
+            type: 'setProjectId',
             projectId: userState[0],
-          });
-        } else {
-          positionDispatch({
-            type: 'set',
-            content: 'Projects',
           });
         }
 
