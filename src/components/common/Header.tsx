@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import Grid from '@material-ui/core/Grid';
 import Modal from '@material-ui/core/Modal';
@@ -50,6 +50,7 @@ const ModalBody = React.forwardRef((props: any, ref: any) => (
 
 const GlobalHeader = () => {
   const history = useHistory();
+  const location = useLocation();
 
   const [modalOpen, setModalOpen] = useState(false);
   const [isSignIn, setSignIn] = useState<boolean>(false);
@@ -82,7 +83,7 @@ const GlobalHeader = () => {
 
   useEffect(() => {
     setSignIn(!!document.cookie);
-  }, [document.cookie]);
+  }, [document.cookie, location]);
 
   return (
     <>
