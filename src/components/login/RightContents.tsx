@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
 import Api from '@utils/Api';
 
@@ -58,6 +59,7 @@ const TextField = styled.input<{ borderOption: string }>`
   outline: none;
   border: none;
   padding: 10px;
+  color: rgba(241, 241, 241, 1);
   font-size: 1rem;
   border: ${props => props.borderOption};
   border-radius: 5px;
@@ -94,6 +96,8 @@ const OauthLink = styled.i`
 `;
 
 const RightContents = () => {
+  const history = useHistory();
+
   const OauthHandler = () => {
     window.location.href = `${process.env.API_URL}/oauth/google`;
   };
@@ -134,8 +138,9 @@ const RightContents = () => {
   const clickSignUp = async () => {
     const data = { name: usernameInput, pwd: passwordInput, email: emailInput };
     const {
-      data: { isCreated },
+      data: { signUp },
     } = await Api.postSignUp(data);
+    if (signUp) history.push('/projects');
   };
 
   useEffect(() => {
