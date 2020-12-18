@@ -16,6 +16,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import DocsPage from '@pages/DocsPage';
 import Tutorial from '@pages/Tutorial';
 import PositionProvider from './context/PositionProvider';
+import IssuesProvider from './context/IssuesProvider';
+import UserProvider from './context/UserProvider';
 
 const useStyles = makeStyles(theme => ({
   appBar: {
@@ -33,23 +35,31 @@ const App: React.FC = () => {
         <Header />
       </AppBar>
       <Route path="/" component={Login} exact />
-      <PositionProvider>
-        <Route path="/projects" component={Projects} exact />
-        <Switch>
-          <Route path="/usage/:platform" component={Usage} exact />
-          <Route path="/projects/new" component={ProjectNew} exact />
-          <Route path="/projects/issues/:projectId" component={Issues} exact />
-          <Route
-            path="/projects/issues/detail/:issueId"
-            component={IssueDetail}
-            exact
-          />
-          <Route path="/projects/:projectId/stats" component={Stats} exact />
-        </Switch>
-        <Route path="/alerts" component={Alerts} exact />
-      </PositionProvider>
-      <Route path="/docs" component={DocsPage} exact />
-      <Route path="/tutorial" component={Tutorial} exact />
+      <UserProvider>
+        <PositionProvider>
+          <IssuesProvider>
+            <Route path="/projects" component={Projects} exact />
+
+            <Route path="/usage/:platform" component={Usage} exact />
+            <Route path="/projects/new" component={ProjectNew} exact />
+            <Route
+              path="/projects/issues/:projectId"
+              component={Issues}
+              exact
+            />
+            <Route
+              path="/projects/issues/detail/:issueId"
+              component={IssueDetail}
+              exact
+            />
+            <Route path="/projects/:projectId/stats" component={Stats} exact />
+
+            <Route path="/alerts" component={Alerts} exact />
+          </IssuesProvider>
+        </PositionProvider>
+        <Route path="/docs" component={DocsPage} exact />
+        <Route path="/tutorial" component={Tutorial} exact />
+      </UserProvider>
     </>
   );
 };
