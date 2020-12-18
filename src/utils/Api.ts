@@ -124,6 +124,16 @@ const postSignIn = async (data: SignInUser): Promise<any> => {
   }
 };
 
+const getSignOut = async (): Promise<any> => {
+  try {
+    return await axios.get(`${process.env.API_URL}/signOut`, {
+      withCredentials: true,
+    });
+  } catch (err) {
+    return err;
+  }
+};
+
 export default {
   getUser,
   getProject,
@@ -136,4 +146,5 @@ export default {
   postInvite,
   postSignUp,
   postSignIn,
+  getSignOut,
 };
