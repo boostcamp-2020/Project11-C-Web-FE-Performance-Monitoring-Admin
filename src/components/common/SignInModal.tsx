@@ -93,6 +93,12 @@ const SignInModal = ({ setModalOpen }) => {
     if (signIn) {
       setModalOpen(false);
       history.push('/projects');
+    } else {
+      const comment = causeEmail
+        ? 'Email is incorrect'
+        : 'Password is incorrect';
+      setEmail(comment);
+      setPassword('');
     }
   };
 
