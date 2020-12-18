@@ -21,7 +21,7 @@ const reducer = (state, action) => {
 export const IssuesStateContext = createContext([]);
 export const IssuesDispatchContext = createContext(null);
 
-const ResolveProvider = ({ children }) => {
+const IssuesProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, []);
   const positionDispatch = useContext(PositionDispatchContext);
   const userState = useContext(UserStateContext);
@@ -65,4 +65,4 @@ const ResolveProvider = ({ children }) => {
   );
 };
 
-export default ResolveProvider;
+export default IssuesProvider;

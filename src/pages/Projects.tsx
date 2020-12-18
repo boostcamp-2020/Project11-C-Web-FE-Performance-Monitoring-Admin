@@ -79,7 +79,6 @@ const Projects = () => {
   const positionDispatch = React.useContext(PositionDispatchContext);
 
   const [projects, setProjects] = useState([]);
-  const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(false);
 
   const readProjects = async () => {
@@ -89,20 +88,12 @@ const Projects = () => {
     setProjects([...data]);
   };
 
-  const readUserInfo = async () => {
-    setLoading(true);
-    const { data } = await Api.getUser();
-    setLoading(false);
-    setUser(data);
-  };
-
   const clickProjectsHeaderButton = () => {
     history.push('/projects/new');
   };
 
   useEffect(() => {
     readProjects();
-    readUserInfo();
     positionDispatch({
       type: 'setPosition',
       content: 'Projects',
