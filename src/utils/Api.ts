@@ -1,5 +1,10 @@
 import axios from 'axios';
-import { CreateProject, InviteMember, SignUpUser } from './Interface';
+import {
+  CreateProject,
+  InviteMember,
+  SignUpUser,
+  SignInUser,
+} from './Interface';
 
 const getUser = async () => {
   try {
@@ -109,6 +114,16 @@ const postSignUp = async (data: SignUpUser): Promise<any> => {
   }
 };
 
+const postSignIn = async (data: SignInUser): Promise<any> => {
+  try {
+    return await axios.post(`${process.env.API_URL}/signIn`, data, {
+      withCredentials: true,
+    });
+  } catch (err) {
+    return err;
+  }
+};
+
 export default {
   getUser,
   getProject,
@@ -120,4 +135,5 @@ export default {
   getUserByEamil,
   postInvite,
   postSignUp,
+  postSignIn,
 };

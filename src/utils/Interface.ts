@@ -13,3 +13,8 @@ export interface SignUpUser {
   email: string;
   pwd: string;
 }
+
+export interface SignInUser {
+  email: string;
+  pwd: string;
+}
