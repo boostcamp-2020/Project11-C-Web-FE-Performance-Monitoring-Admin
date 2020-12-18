@@ -1,4 +1,5 @@
 import React, { createContext, useReducer, useEffect, useContext } from 'react';
+import { useLocation } from 'react-router-dom';
 import Api from '@utils/Api';
 
 const reducer = (state, action) => {
@@ -18,6 +19,8 @@ export const UserStateContext = createContext([]);
 export const UserDispatchContext = createContext(null);
 
 const UserProvider = ({ children }) => {
+  const location = useLocation();
+
   const [state, dispatch] = useReducer(reducer, []);
 
   useEffect(() => {
@@ -33,7 +36,7 @@ const UserProvider = ({ children }) => {
     };
 
     getData();
-  }, []);
+  }, [location]);
 
   return (
     <UserStateContext.Provider value={state}>
