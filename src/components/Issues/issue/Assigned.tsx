@@ -74,6 +74,15 @@ const changeAssinged = async (
   );
 };
 
+const ModalBody = React.forwardRef((props: any, ref: any) => (
+  <div ref={ref}>
+    <InviteModal
+      setModalOpen={props.setModalOpen}
+      projectId={props.projectId}
+    />
+  </div>
+));
+
 export default function Assigned(props) {
   const classes = useStyles();
   const [modalOpen, setModalOpen] = useState(false);
@@ -283,7 +292,7 @@ export default function Assigned(props) {
         aria-labelledby="simple-modal-title"
         aria-describedby="simple-modal-description"
       >
-        <InviteModal setModalOpen={setModalOpen} projectId={props.projectId} />
+        <ModalBody setModalOpen={setModalOpen} projectId={props.projectId} />
       </Modal>
     </div>
   );
