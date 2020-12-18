@@ -5,6 +5,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import LeftBar from '@components/common/LeftBar';
 import MainContainer from '@components/Issues/MainContainer';
 import { PositionDispatchContext } from '../context/PositionProvider';
+import { UserDispatchContext } from '../context/UserProvider';
 import Api from '@utils/Api';
 
 const useStyles = makeStyles(theme => ({
@@ -23,35 +24,14 @@ const useStyles = makeStyles(theme => ({
 
 const MainPage = ({ match }) => {
   const classes = useStyles();
-
   const positionDispatch = useContext(PositionDispatchContext);
+  const userDispatch = useContext(UserDispatchContext);
 
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(false);
-
-  const readUserInfo = async () => {
-    setLoading(true);
-    const { data } = await Api.getUser();
-    setLoading(false);
-    setUser(data);
-
-    positionDispatch({
-      type: 'set',
-      content: 'Issues',
-      projectId: data.recentProject,
-      userName: data.name,
-      userEmail: data.email,
-      imgUrl: data.imageURL,
-    });
-  };
-
-  useEffect(() => {
-    readUserInfo();
-  }, []);
-
-  if (loading) {
-    return null;
-  }
+  positionDispatch({
+    type: 'setPosition',
+    content: 'Issues',
+  });
+  userDispatch({ type: 'recent', recent: match.params.projectId });
 
   return (
     <div className={classes.root}>

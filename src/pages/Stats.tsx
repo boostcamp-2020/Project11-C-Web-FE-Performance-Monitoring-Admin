@@ -102,6 +102,7 @@ const Stats = ({
     params: { projectId },
   },
 }) => {
+  console.log(projectId);
   const classes = useStyles();
   const positionDispatch = React.useContext(PositionDispatchContext);
 
@@ -136,16 +137,14 @@ const Stats = ({
 
   useEffect(() => {
     readDatas();
-
-    positionDispatch({
-      type: 'update',
-      content: 'Stats',
-      projectId: projectId,
-    });
   }, []);
 
+  positionDispatch({
+    type: 'setPosition',
+    content: 'Stats',
+  });
+
   if (errorData) {
-    console.log(errorData);
     if (errorData.errors.length < 1)
       return (
         <div className={classes.root}>

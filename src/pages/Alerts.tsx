@@ -28,7 +28,6 @@ const MainPage = ({ match }) => {
   const positionDispatch = React.useContext(PositionDispatchContext);
 
   React.useEffect(() => {
-    console.log(match.params.projectId);
     positionDispatch({
       type: 'setPosition',
       content: 'Alerts',
