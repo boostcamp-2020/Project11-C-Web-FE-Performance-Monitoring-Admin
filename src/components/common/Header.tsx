@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import Grid from '@material-ui/core/Grid';
 import Modal from '@material-ui/core/Modal';
 import SignInModal from '@components/common/SignInModal';
+import Api from '@utils/Api';
 
 const HeaderButton = styled.button`
   margin: 0 auto;
@@ -51,6 +52,7 @@ const GlobalHeader = () => {
   const history = useHistory();
 
   const [modalOpen, setModalOpen] = useState(false);
+  const [isSignIn, setSignIn] = useState<boolean>(false);
 
   const handleModalOpen = () => {
     setModalOpen(true);
@@ -72,6 +74,16 @@ const GlobalHeader = () => {
     history.push('/tutorial');
   };
 
+  const clickSignOut = async () => {
+    await Api.getSignOut();
+    setSignIn(false);
+    history.push('/');
+  };
+
+  useEffect(() => {
+    setSignIn(!!document.cookie);
+  }, [document.cookie]);
+
   return (
     <>
       <HeaderContainer>
@@ -84,7 +96,11 @@ const GlobalHeader = () => {
             <HeaderButton onClick={tutorialClicked}>Tutorial</HeaderButton>
           </Grid>
           <Grid item xs>
-            <HeaderButton onClick={handleModalOpen}>Sign In</HeaderButton>
+            {isSignIn ? (
+              <HeaderButton onClick={clickSignOut}>Sign Out</HeaderButton>
+            ) : (
+              <HeaderButton onClick={handleModalOpen}>Sign In</HeaderButton>
+            )}
           </Grid>
         </Grid>
       </HeaderContainer>
