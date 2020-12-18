@@ -105,9 +105,9 @@ const RightContents = () => {
     window.location.href = `${process.env.API_URL}/oauth/github`;
   };
 
-  const [usernameInput, setUsenameInput] = useState<string>('');
+  const [usernameInput, setUsernameInput] = useState<string>('');
   const [emailInput, setEmailInput] = useState<string>('');
-  const [passwordInput, setPasInput] = useState<string>('');
+  const [passwordInput, setPasswordInput] = useState<string>('');
   const [disabled, setDisabled] = useState<boolean>(true);
 
   const handleInput = setInput => event => {
@@ -141,6 +141,9 @@ const RightContents = () => {
       data: { signUp },
     } = await Api.postSignUp(data);
     if (signUp) history.push('/projects');
+    setEmailInput('Email already signed up');
+    setUsernameInput('');
+    setPasswordInput('');
   };
 
   useEffect(() => {
@@ -158,7 +161,7 @@ const RightContents = () => {
         <FormText>Username</FormText>
         <TextField
           value={usernameInput}
-          onChange={handleInput(setUsenameInput)}
+          onChange={handleInput(setUsernameInput)}
           borderOption={checkInputValidation(usernameInput, isRightUserName)}
         />
         <FormText>Email</FormText>
@@ -170,7 +173,7 @@ const RightContents = () => {
         <FormText>Password</FormText>
         <TextField
           value={passwordInput}
-          onChange={handleInput(setPasInput)}
+          onChange={handleInput(setPasswordInput)}
           borderOption={checkInputValidation(passwordInput, isRightPassword)}
           type="password"
         />
