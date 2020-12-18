@@ -88,7 +88,6 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const IssueItem = props => {
-  console.log(props);
   const history = useHistory();
   const classes = useStyles();
 
