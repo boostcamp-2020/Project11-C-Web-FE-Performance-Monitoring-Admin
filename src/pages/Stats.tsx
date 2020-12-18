@@ -102,7 +102,6 @@ const Stats = ({
     params: { projectId },
   },
 }) => {
-  console.log(projectId);
   const classes = useStyles();
   const positionDispatch = React.useContext(PositionDispatchContext);
 
