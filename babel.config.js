@@ -1,21 +1,19 @@
-module.exports = {
-  presets: [
-    '@babel/preset-react',
+module.exports = api => {
+  api.cache(true);
+
+  const presets = [
     [
       '@babel/preset-env',
-      {
-        targets: { ie: 11 },
-        modules: 'cjs',
-      },
+      { targets: { ie: '11' }, useBuiltIns: 'usage', corejs: '3' },
     ],
-  ],
-  plugins: [
+    '@babel/preset-react',
+    '@babel/preset-typescript',
+  ];
+  const plugins = [
+    'react-hot-loader/babel',
+    '@babel/plugin-transform-classes',
     '@babel/plugin-transform-arrow-functions',
-    [
-      '@babel/plugin-transform-runtime',
-      {
-        corejs: 3,
-      },
-    ],
-  ],
+  ];
+
+  return { presets, plugins };
 };
