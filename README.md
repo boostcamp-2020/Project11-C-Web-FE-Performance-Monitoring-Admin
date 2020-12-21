@@ -2,7 +2,7 @@
 
 ![Acent](https://user-images.githubusercontent.com/52685325/102728089-1ce1fa00-436d-11eb-86b3-cfa0197e6870.PNG)
 
-[Acent](http://101.101.208.107/) 프로젝트의  admin 사이트입니다.  
+[Acent](http://101.101.208.107.xip.io/) 프로젝트의  admin 사이트입니다.  
 
 ## Acent 
 
@@ -27,7 +27,7 @@
 
 ### Acent 사이트 사용자
 
-1. Acent 사이트에 접속합니다. [link](http://101.101.208.107/)
+1. Acent 사이트에 접속합니다. [link](http://101.101.208.107.xip.io/)
 2. 회원 가입, 프로젝트 생성 후 가이드에 따라 Acent 모듈을 설치합니다. 
 3. 에러가 발생함에 따라 알림을 받고, 에러의 정보를 확인할 수 있게 됩니다. 
 
