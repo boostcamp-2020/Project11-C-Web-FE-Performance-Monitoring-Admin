@@ -87,57 +87,23 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const IssueItem = props => {
-  console.log(props);
+const IssueItem = ({ issue, onClick }) => {
   const history = useHistory();
   const classes = useStyles();
 
   const now = moment();
-  const issueDate = moment(props.date);
+  const issueDate = moment(issue.updateAt);
   const dateDiff: string =
     now.diff(issueDate, 'days') > 0
       ? `${String(now.diff(issueDate, 'days'))}일`
       : `${String(now.diff(issueDate, 'hour'))}시간`;
-  const dateForm = moment(props.date).format('YYYY.MM.DD HH:MM');
-  const pathInfo = props.stack.split('\n')[1].split('/');
+  const dateForm = moment(issue.updateAt).format('YYYY.MM.DD HH:MM');
+  const pathInfo = issue.stack.split('\n')[1].split('/');
   const fileInfo = pathInfo[pathInfo.length - 1];
 
-  const [errorEvents, setErrorEvents] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-
   function onTitleCiick() {
-    history.push(`/projects/issues/detail/${props.issueId}`);
+    history.push(`/projects/issues/detail/${issue._id}`);
   }
-
-  useEffect(() => {
-    const getIssues = async () => {
-      try {
-        setError(null);
-        setErrorEvents(null);
-
-        setLoading(true);
-        const respone: any = await axios.get(
-          `${process.env.API_URL}/errorevent/issue/${props.issueId}`,
-          {
-            withCredentials: true,
-          }
-        );
-        setErrorEvents(respone.data);
-      } catch (e) {
-        setError(e);
-      }
-      setLoading(false);
-    };
-
-    getIssues();
-  }, []);
-
-  if (loading) {
-    return <div>로딩중</div>;
-  }
-  if (error) return <div>에러가 발생했습니다</div>;
-  if (!errorEvents) return null;
 
   return (
     <div className={classes.container}>
@@ -145,30 +111,33 @@ const IssueItem = props => {
         <div className={classes.IssueNameArea}>
           <input
             type="checkbox"
-            id={props.issueId}
-            onClick={props.onClick}
+            id={issue._id}
+            onClick={onClick}
             className="item_checkbox"
             style={{ alignSelf: 'center' }}
           />
           <div className={classes.IssueName} onClick={onTitleCiick}>
-            {props.name + '' + fileInfo}
+            {issue.name + '' + fileInfo}
           </div>
         </div>
-        <div className={classes.IssueInfoItem}>{props.description}</div>
+        <div className={classes.IssueInfoItem}>{issue.message}</div>
         <div className={classes.timeContainer}>
           <AccessTimeIcon fontSize="small" className={classes.timeIcon} />
           {dateForm}, {dateDiff} 전
         </div>
       </div>
-      <Graph errorEvents={errorEvents} />
+      <Graph errorEvents={issue.errorEvents} />
       <div className={classes.column}>
-        <Avatar className={classes.countAvatar}>{props.eventNum}</Avatar>
+        <Avatar className={classes.countAvatar}>
+          {issue.errorEvents.length}
+        </Avatar>
       </div>
       <div className={classes.column}>
         <Assigned
-          projectId={props.projectId}
-          issueId={props.issueId}
-          assignee={props.assignee}
+          projectId={issue.projectId._id}
+          issueId={issue._id}
+          assignee={issue.assignee}
+          members={issue.projectId.members}
         />
       </div>
     </div>

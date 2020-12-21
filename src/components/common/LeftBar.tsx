@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
@@ -8,7 +8,6 @@ import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import Badge from '@material-ui/core/Badge';
 
 import FolderSharedIcon from '@material-ui/icons/FolderShared';
 import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline';
@@ -20,11 +19,7 @@ import NewReleasesIcon from '@material-ui/icons/NewReleases';
 import HelpIcon from '@material-ui/icons/Help';
 import SyncAltIcon from '@material-ui/icons/SyncAlt';
 import UserContainer from './UserContainer';
-import {
-  PositionStateContext,
-  PositionDispatchContext,
-} from '../../context/PositionProvider';
-import Api from '@utils/Api';
+import { PositionStateContext } from '../../context/PositionProvider';
 
 const drawerWidth = 240;
 
@@ -64,12 +59,7 @@ const useStyles = makeStyles(theme => ({
 const LeftBar = () => {
   const classes = useStyles();
   const content = React.useContext(PositionStateContext);
-  const positionDispatch = React.useContext(PositionDispatchContext);
-
   const history = useHistory();
-
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(false);
 
   const topIcons = [
     <FolderSharedIcon />,
@@ -79,27 +69,9 @@ const LeftBar = () => {
     <SettingsApplicationsIcon />,
   ];
 
-  const readUserInfo = async () => {
-    setLoading(true);
-    const { data } = await Api.getUser();
-    setLoading(false);
-    setUser(data);
-
-    positionDispatch({
-      type: 'setUser',
-      projectId: data.recentProject,
-      userName: data.name,
-      userEmail: data.email,
-      imgUrl: data.imageURL,
-    });
-  };
   React.useEffect(() => {
-    readUserInfo();
     const target = document.querySelector('.MuiDrawer-paperAnchorDockedLeft');
     target.setAttribute('style', 'border-right: none;');
-    return () => {
-      readUserInfo();
-    };
   }, []);
 
   const contentClicked = event => {
@@ -108,29 +80,30 @@ const LeftBar = () => {
     if (target) {
       switch (target.title) {
         case 'Projects':
-          if (content[0] !== 'Projects') history.push('/projects');
+          if (content[0] !== 'Projects') {
+            history.push('/projects');
+          }
           break;
         case 'Issues':
-          if (content[0] !== 'Issues' && content[1] !== 'none')
+          if (content[0] !== 'Issues' && content[1]) {
             history.push(`/projects/issues/${content[1]}`);
+          }
           break;
         case 'Alerts':
-          if (content[0] !== 'Alerts' && content[1] !== 'none')
+          if (content[0] !== 'Alerts') {
             history.push(`/alerts`);
+          }
           break;
         case 'Stats':
-          if (content[0] !== 'Stats' && content[1] !== 'none')
+          if (content[0] !== 'Stats' && content[1]) {
             history.push(`/projects/${content[1]}/stats`);
+          }
           break;
         default:
           break;
       }
     }
   };
-
-  if (loading) {
-    return null;
-  }
 
   return (
     <Drawer
@@ -143,11 +116,7 @@ const LeftBar = () => {
       <Toolbar />
       <div className={classes.drawerContainer} onClick={contentClicked}>
         <List>
-          <UserContainer
-            name={content[2]}
-            email={content[3]}
-            url={content[4]}
-          />
+          <UserContainer />
           {['Projects', 'Alerts', 'Issues', 'Stats', 'Settings'].map(
             (text, index) => (
               <ListItem

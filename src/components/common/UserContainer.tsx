@@ -5,6 +5,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import NewReleasesIcon from '@material-ui/icons/NewReleases';
+import { UserStateContext } from '../../context/UserProvider';
 
 const useStyles = makeStyles(theme => ({
   name: {
@@ -17,8 +18,10 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const UserContainer = ({ name, email, url }) => {
+const UserContainer = () => {
   const classes = useStyles();
+  const userState = React.useContext(UserStateContext);
+
   return (
     <ListItem>
       <ListItemAvatar>
@@ -27,8 +30,8 @@ const UserContainer = ({ name, email, url }) => {
         </Avatar>
       </ListItemAvatar>
       <div>
-        <p className={classes.name}>{name}</p>
-        <p className={classes.email}>{email}</p>
+        <p className={classes.name}>{userState[1]}</p>
+        <p className={classes.email}>{userState[2]}</p>
       </div>
     </ListItem>
   );

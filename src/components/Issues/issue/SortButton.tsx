@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
@@ -10,8 +10,12 @@ import Popper from '@material-ui/core/Popper';
 import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
 import { makeStyles } from '@material-ui/core/styles';
+import {
+  IssuesDispatchContext,
+  IssuesStateContext,
+} from '../../../context/IssuesProvider';
 
-const options = ['First Seen', 'Last Seen', 'Events'];
+const options = ['Oldest', 'Latest'];
 
 const useStyles = makeStyles(theme => ({
   sortButtons: {
@@ -32,12 +36,15 @@ export default function SortButton() {
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef(null);
   const [selectedIndex, setSelectedIndex] = React.useState(1);
+  const issuesDispatch = useContext(IssuesDispatchContext);
+  const issuesState = useContext(IssuesStateContext);
 
   const handleClick = () => {
     console.info(`You clicked ${options[selectedIndex]}`);
   };
 
   const handleMenuItemClick = (event, index) => {
+    issuesDispatch({ type: 'reverse' });
     setSelectedIndex(index);
     setOpen(false);
   };

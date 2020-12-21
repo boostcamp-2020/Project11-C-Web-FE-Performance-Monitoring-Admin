@@ -1,5 +1,10 @@
 import axios from 'axios';
-import { CreateProject } from './Interface';
+import {
+  CreateProject,
+  InviteMember,
+  SignUpUser,
+  SignInUser,
+} from './Interface';
 
 const getUser = async () => {
   try {
@@ -84,13 +89,46 @@ const getUserByEamil = async (email: string): Promise<any> => {
   }
 };
 
-const postInvite = async (projectId: string, data: any): Promise<any> => {
+const postInvite = async (
+  projectId: string,
+  data: InviteMember
+): Promise<any> => {
   try {
     return await axios.post(
       `${process.env.API_URL}/project/${projectId}/invite`,
       data,
       { withCredentials: true }
     );
+  } catch (err) {
+    return err;
+  }
+};
+
+const postSignUp = async (data: SignUpUser): Promise<any> => {
+  try {
+    return await axios.post(`${process.env.API_URL}/signUp`, data, {
+      withCredentials: true,
+    });
+  } catch (err) {
+    return err;
+  }
+};
+
+const postSignIn = async (data: SignInUser): Promise<any> => {
+  try {
+    return await axios.post(`${process.env.API_URL}/signIn`, data, {
+      withCredentials: true,
+    });
+  } catch (err) {
+    return err;
+  }
+};
+
+const getSignOut = async (): Promise<any> => {
+  try {
+    return await axios.get(`${process.env.API_URL}/signOut`, {
+      withCredentials: true,
+    });
   } catch (err) {
     return err;
   }
@@ -106,4 +144,7 @@ export default {
   getChartTag,
   getUserByEamil,
   postInvite,
+  postSignUp,
+  postSignIn,
+  getSignOut,
 };

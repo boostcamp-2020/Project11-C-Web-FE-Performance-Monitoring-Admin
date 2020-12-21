@@ -1,13 +1,16 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import DoneIcon from '@material-ui/icons/Done';
 import axios from 'axios';
 import IssueItem from './IssueItem';
+import NoticeEmpty from '../../common/NoticeEmpty';
+
 import {
   ResolveDispatchContext,
   ResolveStateContext,
 } from '../../../context/ResolveProvider';
+import { IssuesStateContext } from '../../../context/IssuesProvider';
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -60,11 +63,11 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const TableColumn = props => {
+const TableColumn = () => {
   const classes = useStyles();
   const resolveDispatch = useContext(ResolveDispatchContext);
   const resolveState = useContext(ResolveStateContext);
-  const { issues } = props;
+  const issues = useContext(IssuesStateContext);
 
   const handleCheckedAll = event => {
     const itemCheckBox = document.querySelectorAll('.item_checkbox');
@@ -101,7 +104,7 @@ const TableColumn = props => {
 
   const handleResolve = () => {
     const updateIssuesResolve = async () => {
-      const result = await axios.put(
+      await axios.put(
         `${process.env.API_URL}/issue/resolved`,
         { issueIdList: resolveState, resolved: true },
         {
@@ -112,6 +115,10 @@ const TableColumn = props => {
 
     updateIssuesResolve();
   };
+
+  if (issues.length === 0) {
+    return <NoticeEmpty type="issues" />;
+  }
 
   return (
     <div>
@@ -138,20 +145,7 @@ const TableColumn = props => {
         <div className={classes.column}>Assigned</div>
       </div>
       {issues.map(issue => (
-        <IssueItem
-          key={issue._id}
-          issueId={issue._id}
-          name={issue.name}
-          description={issue.message}
-          eventNum={issue.errorEvents.length}
-          userNum={issue.users}
-          assignee={issue.assignee}
-          errorEvents={issue.errorEvents}
-          stack={issue.stack}
-          date={issue.updatedAt}
-          projectId={issue.projectId}
-          onClick={handleChecked}
-        />
+        <IssueItem key={issue._id} issue={issue} onClick={handleChecked} />
       ))}
     </div>
   );

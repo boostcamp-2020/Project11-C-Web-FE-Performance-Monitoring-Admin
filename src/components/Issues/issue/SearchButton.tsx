@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import axios from 'axios';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
@@ -10,8 +11,10 @@ import Popper from '@material-ui/core/Popper';
 import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
 import { makeStyles } from '@material-ui/core/styles';
+import { IssuesDispatchContext } from '../../../context/IssuesProvider';
+import { UserStateContext } from '../../../context/UserProvider';
 
-const options = ['Resolved', 'Unresolved', 'Yours'];
+const options = ['Resolved', 'Unresolved', 'All'];
 
 const useStyles = makeStyles(theme => ({
   sortButton: {
@@ -33,11 +36,26 @@ export default function SortButton() {
   const anchorRef = React.useRef(null);
   const [selectedIndex, setSelectedIndex] = React.useState(1);
 
+  const issuesDispatch = useContext(IssuesDispatchContext);
+  const userState = useContext(UserStateContext);
+
+  const filtering = async index => {
+    const response: any = await axios.get(
+      `${process.env.API_URL}/issue/project/${userState[0]}/${index}`,
+      {
+        withCredentials: true,
+      }
+    );
+
+    issuesDispatch({ type: 'set', issues: response.data });
+  };
+
   const handleClick = () => {
     console.info(`You clicked ${options[selectedIndex]}`);
   };
 
   const handleMenuItemClick = (event, index) => {
+    filtering(index);
     setSelectedIndex(index);
     setOpen(false);
   };
